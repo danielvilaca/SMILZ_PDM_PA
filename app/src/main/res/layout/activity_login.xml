@@ -67,7 +67,7 @@
         android:layout_alignParentBottom="true"
         android:text="@string/dont_have_account_sign_up"
         android:gravity="center"
-        android:layout_margin="20dp"/>
+        android:layout_margin="40dp"/>
 
     <TextView
         android:id="@+id/text_recover_password"
@@ -76,6 +76,6 @@
         android:layout_above="@id/text_sign_up"
         android:text="@string/recover_your_password"
         android:gravity="center"
-        android:layout_margin="20dp"/>
+        android:layout_margin="0dp"/>
 
 </RelativeLayout>
