@@ -1,34 +1,52 @@
 package com.example.smilz_pdm_pa.ui
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.databinding.ActivitySignUpBinding
+import com.example.smilz_pdm_pa.model.VoluntarioModel
+import com.example.smilz_pdm_pa.viewmodel.VoluntarioViewModel
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
+    private val voluntarioViewModel: VoluntarioViewModel by viewModels() // Instancia o ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_sign_up)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Clique no botão de registo
         binding.buttonSignup.setOnClickListener {
-            //validar
-            finish()
-        }
+            val email = binding.editEmail.text.toString()
+            val password = binding.editPassword.text.toString()
+            val confirmPassword = binding.editConfirmPassword.text.toString()
+            val nome = binding.editName.text.toString()
+            val role = "voluntario"  // Pode ser fixo ou dinâmico, dependendo do seu design
 
+            // Verifica se todos os campos estão preenchidos
+            if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && nome.isNotEmpty()) {
+                if (password == confirmPassword) {
+                    // Cria o modelo do voluntário
+                    val voluntario = VoluntarioModel(
+                        email = email,
+                        senha = password,
+                        nome = nome,
+                        role = role,
+                        dataRegisto = System.currentTimeMillis().toString()
+                    )
+
+                    // Chama a função de registo no ViewModel
+                    voluntarioViewModel.registerUser(voluntario)
+                } else {
+                    Toast.makeText(this, "As senhas não coincidem.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

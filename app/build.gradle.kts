@@ -47,9 +47,16 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-auth:22.1.1")
+    // Kotlin coroutines e lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1") // ViewModel com corrotinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4") // Suporte para corrotinas
+
 }

@@ -1,12 +1,10 @@
 package com.example.smilz_pdm_pa.model
 
 data class BeneficiarioModel(
-    val id : Int = 0,
-    val name : String = "",
-    val phone : Int = 0,
-    val reference : String = "",
-    val family : String = "",
-    val nationality : String = "",
-    val request : String = "",
-    val notes : String = ""
+    val id: String = "",             // ID único do beneficiário
+    val nome: String = "",           // Nome do beneficiário
+    val numeroProcesso: String = "", // Número do processo (campo importante do Excel)
+    val morada: String = "",         // Morada
+    val contacto: String = "",       // Telefone/Contacto
+    val numIdas: Map<String, Int> = mapOf() // Nº de idas à loja por ano (2023, 2024...)
 )

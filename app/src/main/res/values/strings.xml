@@ -12,4 +12,6 @@
     <string name="signup">Signup</string>
     <string name="role">Role</string>
     <string name="loja_social_de_s_o_l_zaro_e_s_o_jo_o_do_souto">Loja Social de São Lázaro e São João do Souto</string>
+    <string name="email">email</string>
+    <string name="name">name</string>
 </resources>
