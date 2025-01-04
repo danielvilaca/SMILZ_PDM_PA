@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- Exibição do Nome -->
+    <TextView
+        android:id="@+id/text_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome do Beneficiário"
+        android:textSize="18sp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/button_ver_detalhes"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Exibição do ID do Beneficiário -->
+    <TextView
+        android:id="@+id/text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID do Beneficiário"
+        android:textSize="16sp"
+        android:layout_below="@id/text_nome"
+        android:layout_alignStart="@id/text_nome"
+        android:layout_marginTop="4dp" />
+
+    <!-- Botão para ver detalhes -->
+    <Button
+        android:id="@+id/button_ver_detalhes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Detalhes"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

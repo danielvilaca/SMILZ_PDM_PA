@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.smilz_pdm_pa"
-        minSdk = 24
+        minSdk = 26
         //noinspection EditedTargetSdkVersion
         targetSdk = 35
         versionCode = 1
@@ -58,5 +58,7 @@ dependencies {
     // Kotlin coroutines e lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1") // ViewModel com corrotinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4") // Suporte para corrotinas
+    implementation ("org.apache.poi:poi-ooxml:5.2.3")
+
 
 }
