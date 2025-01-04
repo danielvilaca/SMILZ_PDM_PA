@@ -13,15 +13,16 @@ class VoluntarioRepository {
     // Função de login
     suspend fun loginUser(email: String, password: String): Boolean {
         return try {
-            // Fazendo o login no Firebase Auth
+            // Autenticar o usuário no Firebase Auth
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
 
-            // Se o login for bem-sucedido, retornamos true
-            authResult.user?.let {
-                true
+            // Verificar se o usuário existe no Firestore
+            val user = authResult.user
+            user?.let {
+                val document = db.collection("voluntarios").document(user.uid).get().await()
+                document.exists() // Retorna true se o usuário existe, false caso contrário
             } ?: false
         } catch (e: Exception) {
-            // Em caso de erro (ex: login inválido), retornamos false
             false
         }
     }

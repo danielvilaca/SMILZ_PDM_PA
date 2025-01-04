@@ -1,9 +1,10 @@
 package com.example.smilz_pdm_pa.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.smilz_pdm_pa.databinding.ActivitySignUpBinding
 import com.example.smilz_pdm_pa.model.VoluntarioModel
 import com.example.smilz_pdm_pa.viewmodel.VoluntarioViewModel
@@ -11,13 +12,29 @@ import com.example.smilz_pdm_pa.viewmodel.VoluntarioViewModel
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
-    private val voluntarioViewModel: VoluntarioViewModel by viewModels() // Instancia o ViewModel
+    private lateinit var voluntarioViewModel: VoluntarioViewModel //by viewModels() | Instancia o ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Inicializa o ViewModel
+        voluntarioViewModel = ViewModelProvider(this).get(VoluntarioViewModel::class.java)
+
+        // Observa o estado de registo
+        voluntarioViewModel.isUserRegistered.observe(this) { isRegistered ->
+            if (isRegistered) {
+                Toast.makeText(this, "Registo bem-sucedido! Faça login.", Toast.LENGTH_SHORT).show()
+                // Redirecionar para a LoginActivity
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish() // Finaliza a SignUpActivity
+            } else {
+                Toast.makeText(this, "Falha ao registar o utilizador. Tente novamente.", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // Clique no botão de registo
         binding.buttonSignup.setOnClickListener {

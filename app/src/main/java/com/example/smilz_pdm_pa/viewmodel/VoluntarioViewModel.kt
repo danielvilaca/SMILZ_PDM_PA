@@ -12,30 +12,21 @@ class VoluntarioViewModel : ViewModel() {
 
     private val voluntarioRepository = VoluntarioRepository()
 
-    // MutableLiveData para gerenciar o estado de erro ou sucesso do login
-    private val _loginStatus = MutableLiveData<String>()
-    val loginStatus: LiveData<String> get() = _loginStatus
+    private val _isUserLoggedIn = MutableLiveData<Boolean>()
+    val isUserLoggedIn: LiveData<Boolean> get() = _isUserLoggedIn
 
     // MutableLiveData para gerenciar o estado de sucesso ou falha no registo
     private val _isUserRegistered = MutableLiveData<Boolean>()
     val isUserRegistered: LiveData<Boolean> get() = _isUserRegistered
 
-    // Função de login
+    //Login
     fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             try {
-                // Chama o repositório para fazer o login
                 val result = voluntarioRepository.loginUser(email, password)
-                if (result) {
-                    // Login bem-sucedido
-                    _loginStatus.value = "Login bem-sucedido"
-                } else {
-                    // Login falhou
-                    _loginStatus.value = "Falha no login. Verifique as credenciais."
-                }
+                _isUserLoggedIn.value = result
             } catch (e: Exception) {
-                // Em caso de erro
-                _loginStatus.value = "Erro: ${e.message}"
+                _isUserLoggedIn.value = false
             }
         }
     }

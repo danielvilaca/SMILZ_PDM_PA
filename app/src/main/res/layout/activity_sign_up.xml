@@ -55,7 +55,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="@string/password"
-            android:drawableStart="@drawable/baseline_lock_24"/>
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:inputType="textPassword"/>
 
         <EditText
             android:id="@+id/edit_confirm_password"
@@ -63,7 +64,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="@string/confirm_password"
-            android:drawableStart="@drawable/baseline_lock_24"/>
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/button_signup"

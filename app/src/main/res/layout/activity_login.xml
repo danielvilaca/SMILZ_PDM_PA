@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="@string/password"
-            android:drawableStart="@drawable/baseline_lock_24"/>
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:inputType="textPassword"/>
 
         <CheckBox
             android:id="@+id/checkbox_logged"

@@ -30,23 +30,40 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Observa o estado de login
+        voluntarioViewModel.isUserLoggedIn.observe(this) { isLoggedIn ->
+            if (isLoggedIn) {
+                Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
+                // Redireciona para a MainActivity
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish() // Finaliza a LoginActivity
+            } else {
+                Toast.makeText(this, "Credenciais inválidas. Tente novamente.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.buttonLogin.setOnClickListener {
-            //startActivity(Intent(this, MainActivity::class.java))
             val email = binding.editEmail.text.toString()
             val password = binding.editPassword.text.toString()
 
+            // Verifica se os campos não estão vazios
             if (email.isNotEmpty() && password.isNotEmpty()) {
+                // Chama a função de login no ViewModel
                 voluntarioViewModel.loginUser(email, password)
             } else {
                 Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Redireciona para a SignUpActivity quando o link de "Criar conta" for clicado
         binding.textSignUp.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        binding.textRecoverPassword.setOnClickListener {}
-
+        // O link de recuperação de senha ainda não foi implementado, se necessário
+        binding.textRecoverPassword.setOnClickListener {
+            // Ação para recuperação de senha (não implementada por enquanto)
+        }
     }
 }
