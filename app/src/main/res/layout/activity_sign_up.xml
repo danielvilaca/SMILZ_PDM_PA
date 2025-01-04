@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    tools:context=".ui.SignUpActivity">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -33,7 +33,14 @@
             android:gravity="center"
             android:hint="@string/username"
             android:drawableStart="@drawable/baseline_person_24"
-            android:layout_marginTop="60dp"/>
+            android:layout_marginTop="100dp"/>
+        <EditText
+            android:id="@+id/edit_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/role"
+            android:drawableStart="@drawable/baseline_badge_24" />
 
         <EditText
             android:id="@+id/edit_password"

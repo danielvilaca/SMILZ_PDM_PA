@@ -1,10 +1,11 @@
-package com.example.smilz_pdm_pa
+package com.example.smilz_pdm_pa.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
@@ -24,10 +25,10 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //binding.buttonSignUp.setOnClickListener {
+        binding.buttonSignup.setOnClickListener {
             //validar
-            //finish()
-        //}
+            finish()
+        }
 
     }
 }

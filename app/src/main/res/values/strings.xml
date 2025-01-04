@@ -9,5 +9,7 @@
     <string name="dont_have_account_sign_up">Dont have account? Sign Up!</string>
     <string name="recover_your_password">Recover your password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="signup">SignUp</string>
+    <string name="signup">Signup</string>
+    <string name="role">Role</string>
+    <string name="loja_social_de_s_o_l_zaro_e_s_o_jo_o_do_souto">Loja Social de São Lázaro e São João do Souto</string>
 </resources>
