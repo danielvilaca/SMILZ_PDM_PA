@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -30,18 +30,20 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Observa o estado de login
         voluntarioViewModel.isUserLoggedIn.observe(this) { isLoggedIn ->
             if (isLoggedIn) {
-                Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
-                // Redireciona para a MainActivity
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish() // Finaliza a LoginActivity
+                // Verifica se a MainActivity já foi iniciada antes de tentar iniciar novamente
+                if (isFinishing.not()) {
+                    Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()  // Finaliza a LoginActivity para impedir voltar
+                }
             } else {
                 Toast.makeText(this, "Credenciais inválidas. Tente novamente.", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         binding.buttonLogin.setOnClickListener {
             val email = binding.editEmail.text.toString()

@@ -1,38 +1,37 @@
 package com.example.smilz_pdm_pa.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
 import com.example.smilz_pdm_pa.repository.BeneficiarioRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class BeneficiarioViewModel : ViewModel() {
 
-    private val beneficiarioRepository = BeneficiarioRepository()
+    private val repository = BeneficiarioRepository()
 
-    // LiveData para manter a lista de beneficiários
-    private val _beneficiarios = MutableLiveData<List<BeneficiarioModel>>()
-    val beneficiarios: LiveData<List<BeneficiarioModel>> get() = _beneficiarios
+    private val _beneficiarios = MutableStateFlow<List<BeneficiarioModel>>(emptyList())
+    val beneficiarios: StateFlow<List<BeneficiarioModel>> = _beneficiarios
 
-    // Função para carregar a lista de beneficiários
-    fun loadBeneficiarios() {
+    fun fetchBeneficiarios() {
         viewModelScope.launch {
-            beneficiarioRepository.getBeneficiarios { lista ->
-                _beneficiarios.postValue(lista)
-            }
+            _beneficiarios.value = repository.getBeneficiarios()
         }
     }
 
-    // Função para adicionar um novo beneficiário
     fun addBeneficiario(beneficiario: BeneficiarioModel) {
         viewModelScope.launch {
-            beneficiarioRepository.saveBeneficiario(beneficiario) { success ->
-                if (success) {
-                    loadBeneficiarios()  // Recarrega a lista após salvar
-                }
-            }
+            repository.addBeneficiario(beneficiario)
+            fetchBeneficiarios() // Atualizar lista
+        }
+    }
+
+    fun deleteBeneficiario(id: String) {
+        viewModelScope.launch {
+            repository.deleteBeneficiario(id)
+            fetchBeneficiarios()
         }
     }
 }

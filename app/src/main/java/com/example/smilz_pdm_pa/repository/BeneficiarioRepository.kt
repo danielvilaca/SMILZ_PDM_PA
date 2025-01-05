@@ -2,37 +2,35 @@ package com.example.smilz_pdm_pa.repository
 
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class BeneficiarioRepository {
 
     private val db = FirebaseFirestore.getInstance()
+    private val collection = db.collection("beneficiarios")
 
-    // Função para salvar um beneficiário no Firestore
-    fun saveBeneficiario(beneficiario: BeneficiarioModel, onComplete: (Boolean) -> Unit) {
-        db.collection("beneficiarios")
-            .document(beneficiario.id)
-            .set(beneficiario)
-            .addOnSuccessListener {
-                onComplete(true)
-            }
-            .addOnFailureListener { e ->
-                onComplete(false)
-            }
+    suspend fun addBeneficiario(beneficiario: BeneficiarioModel) {
+        collection.add(beneficiario).await()
     }
 
-    // Função para buscar todos os beneficiários
-    fun getBeneficiarios(onComplete: (List<BeneficiarioModel>) -> Unit) {
-        val beneficiariosList = mutableListOf<BeneficiarioModel>()
-        db.collection("beneficiarios").get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val beneficiario = document.toObject(BeneficiarioModel::class.java)
-                    beneficiariosList.add(beneficiario)
-                }
-                onComplete(beneficiariosList)
-            }
-            .addOnFailureListener { e ->
-                onComplete(emptyList())
-            }
+    suspend fun getBeneficiarios(): List<BeneficiarioModel> {
+        val snapshot = collection.get().await()
+        return snapshot.documents.mapNotNull { doc ->
+            doc.toObject(BeneficiarioModel::class.java)?.copy(id = doc.id)
+        }
     }
+
+    suspend fun deleteBeneficiario(id: String) {
+        collection.document(id).delete().await()
+    }
+
+    suspend fun updateBeneficiario(id: String, beneficiario: BeneficiarioModel) {
+        collection.document(id).set(beneficiario).await()
+    }
+
+    suspend fun getBeneficiarioById(id: String): BeneficiarioModel? {
+        val doc = collection.document(id).get().await()
+        return doc.toObject(BeneficiarioModel::class.java)?.copy(id = doc.id)
+    }
+
 }

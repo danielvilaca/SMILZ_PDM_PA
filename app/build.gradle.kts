@@ -55,10 +55,14 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth:22.1.1")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
     // Kotlin coroutines e lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1") // ViewModel com corrotinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4") // Suporte para corrotinas
     implementation ("org.apache.poi:poi-ooxml:5.2.3")
+    implementation ("org.apache.poi:poi:5.2.3")
+    implementation ("androidx.recyclerview:recyclerview:1.3.1")
+
 
 
 }

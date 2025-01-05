@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -28,15 +29,28 @@
         android:layout_centerInParent="true"
         android:layout_below="@id/logo"
         android:gravity="center"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/button_upload_excel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="Upload_Excel"
+        android:layout_below="@id/text_logo"
+        android:layout_centerInParent="true"/>
 
 
-    <ListView
-        android:id="@+id/beneficiarios_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_beneficiarios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/button_add"
-        android:layout_below="@id/text_logo"/>
+        android:layout_below="@id/button_upload_excel"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:padding="8dp" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_order"

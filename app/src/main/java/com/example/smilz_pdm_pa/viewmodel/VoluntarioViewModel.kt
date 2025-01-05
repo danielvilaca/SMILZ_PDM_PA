@@ -1,5 +1,6 @@
 package com.example.smilz_pdm_pa.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ class VoluntarioViewModel : ViewModel() {
                 _isUserLoggedIn.value = result
             } catch (e: Exception) {
                 _isUserLoggedIn.value = false
+                Log.e("LoginError", "Erro no login: ${e.message}")
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.smilz_pdm_pa.repository
 
+import android.util.Log
 import com.example.smilz_pdm_pa.model.VoluntarioModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,10 +21,17 @@ class VoluntarioRepository {
             val user = authResult.user
             user?.let {
                 val document = db.collection("voluntarios").document(user.uid).get().await()
-                document.exists() // Retorna true se o usuário existe, false caso contrário
+
+                if (document.exists()) {
+                    Log.d("Login", "Usuário encontrado no Firestore")
+                } else {
+                    Log.d("Login", "Usuário não encontrado no Firestore")
+                }
+                document.exists()
             } ?: false
         } catch (e: Exception) {
-            false
+            Log.e("LoginError", "Erro ao fazer login: ${e.message}", e)
+            return false
         }
     }
 
@@ -49,6 +57,7 @@ class VoluntarioRepository {
                 true
             } ?: false
         } catch (e: Exception) {
+            Log.e("RegisterError", "Erro ao registar usuário: ${e.message}", e)
             false
         }
     }

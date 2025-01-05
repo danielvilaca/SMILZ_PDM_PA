@@ -1,29 +1,37 @@
-// BeneficiariosAdapter.kt
-package com.example.smilz_pdm_pa.ui
+package com.example.smilz_pdm_pa.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
 
-class BeneficiariosAdapter(
-    private val context: MainActivity,
-    private val beneficiarios: List<BeneficiarioModel>
-) : ArrayAdapter<BeneficiarioModel>(context, R.layout.item_beneficiario, beneficiarios) {
+class BeneficiarioAdapter(
+    private val beneficiarios: List<BeneficiarioModel>,
+    private val onDetailClick: (BeneficiarioModel) -> Unit
+) : RecyclerView.Adapter<BeneficiarioAdapter.BeneficiarioViewHolder>() {
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val beneficiario = getItem(position)
-        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_beneficiario, parent, false)
-
-        val nomeTextView = view.findViewById<TextView>(R.id.text_nome)
-        val idTextView = view.findViewById<TextView>(R.id.text_id)
-
-        nomeTextView.text = beneficiario?.nome
-        idTextView.text = beneficiario?.id
-
-        return view
+    // ViewHolder interno para manter as referências dos componentes de layout
+    class BeneficiarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val textNome: TextView = itemView.findViewById(R.id.text_nome)
+        val textId: TextView = itemView.findViewById(R.id.text_id)
+        val buttonVerDetalhes: Button = itemView.findViewById(R.id.button_ver_detalhes)
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeneficiarioViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_beneficiario, parent, false)
+        return BeneficiarioViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: BeneficiarioViewHolder, position: Int) {
+        val beneficiario = beneficiarios[position]
+        holder.textNome.text = beneficiario.nome
+        holder.textId.text = beneficiario.id ?: "Sem ID"
+        holder.buttonVerDetalhes.setOnClickListener { onDetailClick(beneficiario) }
+    }
+
+    override fun getItemCount(): Int = beneficiarios.size
 }
