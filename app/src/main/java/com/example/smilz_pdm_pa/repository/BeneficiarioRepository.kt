@@ -10,7 +10,8 @@ class BeneficiarioRepository {
     private val collection = db.collection("beneficiarios")
 
     suspend fun addBeneficiario(beneficiario: BeneficiarioModel) {
-        collection.add(beneficiario).await()
+        //collection.add(beneficiario).await()
+        collection.document(beneficiario.id).set(beneficiario).await()
     }
 
     suspend fun getBeneficiarios(): List<BeneficiarioModel> {
@@ -22,10 +23,6 @@ class BeneficiarioRepository {
 
     suspend fun deleteBeneficiario(id: String) {
         collection.document(id).delete().await()
-    }
-
-    suspend fun updateBeneficiario(id: String, beneficiario: BeneficiarioModel) {
-        collection.document(id).set(beneficiario).await()
     }
 
     suspend fun getBeneficiarioById(id: String): BeneficiarioModel? {

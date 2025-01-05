@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="@string/home"
+        android:icon="@drawable/baseline_home_24"
+        />
+    <item
+        android:id="@+id/nav_beneficiarios"
+        android:title="@string/beneficiarios"
+        android:icon="@drawable/baseline_person_pin_24"
+        />
+    <item
+        android:id="@+id/nav_calendars"
+        android:title="@string/escalas"
+        android:icon="@drawable/baseline_calendar_month_24"
+        />
+    <item
+        android:id="@+id/nav_stats"
+        android:title="@string/estatisticas"
+        android:icon="@drawable/baseline_query_stats_24"
+        />
+    <item  android:title="@string/perfil">
+
+        <menu>
+
+            <item
+            android:id="@+id/nav_logout"
+            android:title="@string/logout"
+            android:icon="@drawable/baseline_logout_24"/>
+
+        </menu>
+
+    </item>
+
+</menu>

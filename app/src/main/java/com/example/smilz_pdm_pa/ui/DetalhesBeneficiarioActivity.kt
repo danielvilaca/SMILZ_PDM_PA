@@ -1,11 +1,9 @@
 package com.example.smilz_pdm_pa.ui
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.smilz_pdm_pa.R
+import com.example.smilz_pdm_pa.databinding.ActivityDetalhesBeneficiarioBinding
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
 import com.example.smilz_pdm_pa.repository.BeneficiarioRepository
 import kotlinx.coroutines.CoroutineScope
@@ -15,33 +13,20 @@ import kotlinx.coroutines.withContext
 
 class DetalhesBeneficiarioActivity : AppCompatActivity() {
 
-    private lateinit var textId: TextView
-    private lateinit var textNome: TextView
-    private lateinit var textContacto: TextView
-    private lateinit var textReference: TextView
-    private lateinit var buttonVoltar: Button
-
+    private lateinit var binding: ActivityDetalhesBeneficiarioBinding
     private val repository = BeneficiarioRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalhes_beneficiario)
-
-        // Inicializar Views
-        textId = findViewById(R.id.text_id)
-        textNome = findViewById(R.id.text_nome)
-        textContacto = findViewById(R.id.text_contacto)
-        textReference = findViewById(R.id.text_reference)
-        buttonVoltar = findViewById(R.id.button_voltar)
+        binding = ActivityDetalhesBeneficiarioBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Configurar botão de voltar
-        buttonVoltar.setOnClickListener {
-            finish()
-        }
+        binding.buttonVoltar.setOnClickListener { finish() }
 
-        // Obter o ID do beneficiário a partir do Intent
+        // Obter o ID do beneficiário do Intent
         val beneficiarioId = intent.getStringExtra("beneficiario_id")
-        if (beneficiarioId != null) {
+        if (!beneficiarioId.isNullOrEmpty()) {
             carregarDetalhes(beneficiarioId)
         } else {
             Toast.makeText(this, "Erro ao carregar o beneficiário.", Toast.LENGTH_SHORT).show()
@@ -71,9 +56,11 @@ class DetalhesBeneficiarioActivity : AppCompatActivity() {
     }
 
     private fun mostrarDetalhes(beneficiario: BeneficiarioModel) {
-        textId.text = "ID: ${beneficiario.id}"
-        textNome.text = "Nome: ${beneficiario.nome}"
-        textContacto.text = "Contacto: ${beneficiario.contacto ?: "N/A"}"
-        textReference.text = "Referência: ${beneficiario.reference ?: "N/A"}"
+        binding.apply {
+            textId.text = "ID: ${beneficiario.id}"
+            textNome.text = "Nome: ${beneficiario.nome}"
+            textContacto.text = "Contacto: ${beneficiario.contacto ?: "N/A"}"
+            textReference.text = "Referência: ${beneficiario.reference ?: "N/A"}"
+        }
     }
 }

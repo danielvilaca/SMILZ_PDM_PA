@@ -62,7 +62,17 @@ dependencies {
     implementation ("org.apache.poi:poi-ooxml:5.2.3")
     implementation ("org.apache.poi:poi:5.2.3")
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
+    // Material Design (necessário para NavigationView e FloatingActionButton)
+    implementation ("com.google.android.material:material:1.9.0")
+
+    // RecyclerView (se ainda não tiver)
+    implementation ("androidx.recyclerview:recyclerview:1.3.1")
+
+    // Core UI components (AppCompat para suporte a ActionBar e DrawerToggle)
+    implementation ("androidx.appcompat:appcompat:1.6.1'")
+    implementation ("androidx.drawerlayout:drawerlayout:1.2.0")
 
 
 }

@@ -14,4 +14,14 @@
     <string name="loja_social_de_s_o_l_zaro_e_s_o_jo_o_do_souto">Loja Social de São Lázaro e São João do Souto</string>
     <string name="email">email</string>
     <string name="name">name</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="homepage">Homepage</string>
+    <string name="bem_vindo_smilz">Bem-Vindo à SMILZ</string>
+    <string name="logout">Logout</string>
+    <string name="perfil">Perfil</string>
+    <string name="estatisticas">Estatisticas</string>
+    <string name="escalas">Escalas</string>
+    <string name="beneficiarios">Beneficiarios</string>
+    <string name="home">Home</string>
 </resources>

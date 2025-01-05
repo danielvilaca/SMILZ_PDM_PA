@@ -1,5 +1,6 @@
 package com.example.smilz_pdm_pa.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.databinding.ActivityLoginBinding
 import com.example.smilz_pdm_pa.viewmodel.VoluntarioViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
                 // Verifica se a MainActivity já foi iniciada antes de tentar iniciar novamente
                 if (isFinishing.not()) {
                     Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()  // Finaliza a LoginActivity para impedir voltar
                 }
@@ -66,6 +68,21 @@ class LoginActivity : AppCompatActivity() {
         // O link de recuperação de senha ainda não foi implementado, se necessário
         binding.textRecoverPassword.setOnClickListener {
             // Ação para recuperação de senha (não implementada por enquanto)
+        }
+    }
+
+    companion object {
+        fun logout(context: Context) {
+            // Realiza o logout do Firebase
+            FirebaseAuth.getInstance().signOut()
+
+            // Exibe uma mensagem de sucesso
+            Toast.makeText(context, "Logout realizado com sucesso", Toast.LENGTH_SHORT).show()
+
+            // Redireciona para a LoginActivity
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
         }
     }
 }
