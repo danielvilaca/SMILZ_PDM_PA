@@ -2,11 +2,14 @@ package com.example.smilz_pdm_pa.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -17,6 +20,7 @@ import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
 import com.example.smilz_pdm_pa.ui.adapter.BeneficiarioAdapter
 import com.example.smilz_pdm_pa.viewmodel.BeneficiarioViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 import org.apache.poi.ss.usermodel.WorkbookFactory
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var beneficiarioViewModel: BeneficiarioViewModel
     private lateinit var recyclerViewBeneficiarios: RecyclerView
     private lateinit var buttonUploadExcel: Button
+    private lateinit var buttonAddBeneficiario: FloatingActionButton
 
     lateinit var toggle : ActionBarDrawerToggle
 
@@ -34,6 +39,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Inicializando a referência do botão
+        buttonAddBeneficiario = findViewById(R.id.button_add_beneficiario)
+
+        // Configurando o clique do botão para abrir o diálogo de adicionar beneficiário
+        buttonAddBeneficiario.setOnClickListener {
+            adicionarBeneficiario()
+        }
 
 
         // Configura a Toolbar personalizada
@@ -72,7 +85,12 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.nav_calendars -> Toast.makeText(applicationContext, "Clicked Escalas", Toast.LENGTH_SHORT).show()
+                R.id.nav_calendars -> {
+                    val intent = Intent(this, EscalaActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
                 R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_logout -> {
@@ -91,15 +109,23 @@ class MainActivity : AppCompatActivity() {
         recyclerViewBeneficiarios.layoutManager = LinearLayoutManager(this)
         recyclerViewBeneficiarios.setHasFixedSize(true)
 
+        // Botão para adicionar beneficiário
+        val buttonAddBeneficiario: FloatingActionButton = findViewById(R.id.button_add_beneficiario)
+        buttonAddBeneficiario.setOnClickListener {
+            adicionarBeneficiario()
+        }
+
         // Inicializar ViewModel
         beneficiarioViewModel = BeneficiarioViewModel()
 
         // Observar o StateFlow usando lifecycleScope
         lifecycleScope.launch {
             beneficiarioViewModel.beneficiarios.collect { beneficiarios ->
-                recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(beneficiarios) { beneficiario ->
-                    mostrarDetalhes(beneficiario)
-                }
+                recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(
+                    beneficiarios,
+                    onDetailClick = { beneficiario -> mostrarDetalhes(beneficiario) },
+                    onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) }
+                )
             }
         }
 
@@ -112,6 +138,66 @@ class MainActivity : AppCompatActivity() {
             abrirSeletorDeArquivo()
         }
     }
+
+    private fun confirmarExclusao(beneficiario: BeneficiarioModel) {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Excluir Beneficiário")
+            .setMessage("Tem certeza de que deseja excluir o beneficiário ${beneficiario.nome}?")
+            .setPositiveButton("Sim") { _, _ ->
+                lifecycleScope.launch {
+                    beneficiarioViewModel.deleteBeneficiario(beneficiario.id)
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Beneficiário excluído com sucesso.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .setNegativeButton("Não", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun adicionarBeneficiario() {
+        // Criar o layout do diálogo
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_adicionar_beneficiario, null)
+        val editNome: EditText = view.findViewById(R.id.edit_nome)
+        val editId: EditText = view.findViewById(R.id.edit_id)
+
+        // Configurar o diálogo
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Adicionar Beneficiário")
+            .setView(view)
+            .setPositiveButton("Adicionar") { _, _ ->
+                val nome = editNome.text.toString()
+                val id = editId.text.toString()
+
+                if (nome.isNotEmpty() && id.isNotEmpty()) {
+                    val beneficiario = BeneficiarioModel(id = id, nome = nome)
+                    lifecycleScope.launch {
+                        beneficiarioViewModel.addBeneficiario(beneficiario)
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Beneficiário adicionado com sucesso!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Preencha todos os campos para adicionar o beneficiário.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        dialog.show()
+    }
+
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 

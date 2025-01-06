@@ -36,5 +36,24 @@
         android:layout_height="wrap_content"
         android:text="Ver Detalhes"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true" />
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:id="@+id/button_excluir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Excluir"
+        android:layout_below="@id/button_ver_detalhes"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:id="@+id/button_alterar_beneficiario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alterar"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/button_excluir"
+        android:layout_alignParentRight="true"/>
+
+
 </RelativeLayout>

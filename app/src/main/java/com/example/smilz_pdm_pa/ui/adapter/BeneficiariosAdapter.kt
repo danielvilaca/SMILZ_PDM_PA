@@ -11,7 +11,8 @@ import com.example.smilz_pdm_pa.model.BeneficiarioModel
 
 class BeneficiarioAdapter(
     private val beneficiarios: List<BeneficiarioModel>,
-    private val onDetailClick: (BeneficiarioModel) -> Unit
+    private val onDetailClick: (BeneficiarioModel) -> Unit,
+    private val onDeleteClick: (BeneficiarioModel) -> Unit
 ) : RecyclerView.Adapter<BeneficiarioAdapter.BeneficiarioViewHolder>() {
 
     // ViewHolder interno para manter as referências dos componentes de layout
@@ -19,6 +20,7 @@ class BeneficiarioAdapter(
         val textNome: TextView = itemView.findViewById(R.id.text_nome)
         val textId: TextView = itemView.findViewById(R.id.text_id)
         val buttonVerDetalhes: Button = itemView.findViewById(R.id.button_ver_detalhes)
+        val buttonExcluir: Button = itemView.findViewById(R.id.button_excluir)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeneficiarioViewHolder {
@@ -31,6 +33,7 @@ class BeneficiarioAdapter(
         holder.textNome.text = beneficiario.nome
         holder.textId.text = beneficiario.id ?: "Sem ID"
         holder.buttonVerDetalhes.setOnClickListener { onDetailClick(beneficiario) }
+        holder.buttonExcluir.setOnClickListener { onDeleteClick(beneficiario) }
     }
 
     override fun getItemCount(): Int = beneficiarios.size
