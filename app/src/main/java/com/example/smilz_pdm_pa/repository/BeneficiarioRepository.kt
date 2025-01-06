@@ -30,4 +30,14 @@ class BeneficiarioRepository {
         return doc.toObject(BeneficiarioModel::class.java)?.copy(id = doc.id)
     }
 
+    fun updateBeneficiario(beneficiario: BeneficiarioModel, callback: (Boolean) -> Unit) {
+        db.collection("beneficiarios").document(beneficiario.id).set(beneficiario)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
+
 }

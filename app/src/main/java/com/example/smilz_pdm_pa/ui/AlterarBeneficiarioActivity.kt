@@ -42,68 +42,96 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
         editNumVisitas = findViewById(R.id.edit_num_visitas)
         buttonSalvar = findViewById(R.id.button_salvar)
 
-        // Bloquear edição do ID (não alterável)
+        // Preenchendo o campo de ID
         editId.setText(beneficiaryId)
+        editId.isEnabled = false // Bloquear edição do ID
 
-        // Preencher os campos com os dados do beneficiário
-        getBeneficiaryData(beneficiaryId)
+        // Carregar dados do beneficiário
+        carregarDadosBeneficiario()
 
         // Configuração do botão "Salvar"
         buttonSalvar.setOnClickListener {
-            val updatedBeneficiary = BeneficiarioModel(
-                id = editId.text.toString(),
-                nome = editNome.text.toString(),
-                contacto = editContacto.text.toString(),
-                reference = editReference.text.toString(),
-                family = editFamily.text.toString().toIntOrNull(),
-                nationality = editNationality.text.toString(),
-                notes = editNotes.text.toString(),
-                requests = editRequests.text.toString(),
-                numVisitas = editNumVisitas.text.toString().toIntOrNull()
-            )
-            updateBeneficiaryData(updatedBeneficiary)
+            salvarAlteracoes()
         }
     }
 
-    private fun getBeneficiaryData(beneficiaryId: String) {
+    private fun carregarDadosBeneficiario() {
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("beneficiarios").document(beneficiaryId)
 
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    val beneficiary = document.toObject(BeneficiarioModel::class.java)
-                    beneficiary?.let {
-                        // Preencher os campos com os dados
-                        editNome.setText(it.nome)
-                        editContacto.setText(it.contacto)
-                        editReference.setText(it.reference)
-                        editFamily.setText(it.family?.toString())
-                        editNationality.setText(it.nationality)
-                        editNotes.setText(it.notes)
-                        editRequests.setText(it.requests)
-                        editNumVisitas.setText(it.numVisitas?.toString())
+                    val beneficiario = document.toObject(BeneficiarioModel::class.java)
+                    beneficiario?.let {
+                        preencherCampos(it)
                     }
+                } else {
+                    Toast.makeText(this, "Beneficiário não encontrado.", Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Erro ao buscar dados", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener {
+                Toast.makeText(this, "Erro ao carregar dados do beneficiário.", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun updateBeneficiaryData(updatedBeneficiary: BeneficiarioModel) {
+    private fun preencherCampos(beneficiario: BeneficiarioModel) {
+        editNome.setText(beneficiario.nome)
+        editContacto.setText(beneficiario.contacto ?: "")
+        editReference.setText(beneficiario.reference ?: "")
+        editFamily.setText(beneficiario.family?.toString() ?: "")
+        editNationality.setText(beneficiario.nationality ?: "")
+        editNotes.setText(beneficiario.notes ?: "")
+        editRequests.setText(beneficiario.requests ?: "")
+        editNumVisitas.setText(beneficiario.numVisitas?.toString() ?: "")
+    }
+
+    private fun salvarAlteracoes() {
+        val nome = editNome.text.toString()
+        val contacto = editContacto.text.toString()
+        val reference = editReference.text.toString()
+        val family = editFamily.text.toString().toIntOrNull()
+        val nationality = editNationality.text.toString()
+        val notes = editNotes.text.toString()
+        val requests = editRequests.text.toString()
+        val numVisitas = editNumVisitas.text.toString().toIntOrNull()
+
+        if (nome.isBlank()) {
+            Toast.makeText(this, "O campo Nome é obrigatório.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val beneficiarioAtualizado = BeneficiarioModel(
+            id = beneficiaryId,
+            nome = nome,
+            contacto = contacto,
+            reference = reference,
+            family = family,
+            nationality = nationality,
+            notes = notes,
+            requests = requests,
+            numVisitas = numVisitas
+        )
+
         val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("beneficiarios").document(updatedBeneficiary.id)
+        val docRef = db.collection("beneficiarios").document(beneficiaryId)
 
-        docRef.set(updatedBeneficiary)
+        docRef.set(beneficiarioAtualizado)
             .addOnSuccessListener {
-                Toast.makeText(this, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show()
-                finish() // Volta para a MainActivity
+                Toast.makeText(this, "Beneficiário atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                finish() // Voltar para a tela anterior
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Erro ao atualizar os dados", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener {
+                Toast.makeText(this, "Erro ao atualizar beneficiário.", Toast.LENGTH_SHORT).show()
             }
+
+
+        // Passar os dados todos
+        /*
+        * lifecycleScope.launch {
+        beneficiarioViewModel.updateBeneficiario(beneficiarioId, nome, idade)
+        setResult(RESULT_OK) // Indica que a atualização foi concluída com sucesso
+        finish() // Fecha a tela de edição
+        * */
     }
-
-
 }

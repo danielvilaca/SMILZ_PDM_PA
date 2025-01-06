@@ -34,4 +34,8 @@ class BeneficiarioViewModel : ViewModel() {
             fetchBeneficiarios()
         }
     }
+
+    fun updateBeneficiario(beneficiario: BeneficiarioModel, callback: (Boolean) -> Unit) {
+        repository.updateBeneficiario(beneficiario, callback)
+    }
 }

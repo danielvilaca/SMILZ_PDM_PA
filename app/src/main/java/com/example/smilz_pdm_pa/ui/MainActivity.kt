@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                     beneficiarios,
                     onDetailClick = { beneficiario -> mostrarDetalhes(beneficiario) },
                     onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) },
-                    onAlterarClick = { beneficiario -> mostrarDetalhes(beneficiario) }
+                    onAlterarClick = { beneficiario -> alterarBeneficiario(beneficiario) }
                 )
             }
         }
@@ -274,6 +274,14 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
+
+    private fun alterarBeneficiario(beneficiario: BeneficiarioModel) {
+        val intent = Intent(this, AlterarBeneficiarioActivity::class.java).apply {
+            putExtra("beneficiaryId", beneficiario.id)
+        }
+        startActivity(intent)
+    }
+
 
 
 
