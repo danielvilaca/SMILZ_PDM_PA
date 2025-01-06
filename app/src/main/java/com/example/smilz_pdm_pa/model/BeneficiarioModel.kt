@@ -11,3 +11,20 @@ data class BeneficiarioModel(
     val requests: String? = "",
     val numVisitas: Int? = 0
 )
+
+/*
+* data class BeneficiarioModel(
+    val id: Int? = null,
+    val nome: String? = null,
+    val contacto: String? = null,
+    val referencia: String? = null,
+    val familia: String? = null,
+    val nacionalidade: String? = null,
+    val pedidos: String? = null,
+    val notas: String? = null,
+    val visitas: Int? = null
+) {
+    // Necessário para mapeamento do Firestore
+    constructor() : this(null, null, null, null, null, null, null, null, null)
+}
+* */

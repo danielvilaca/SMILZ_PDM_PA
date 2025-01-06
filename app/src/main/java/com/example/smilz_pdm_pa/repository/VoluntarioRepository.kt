@@ -61,4 +61,10 @@ class VoluntarioRepository {
             false
         }
     }
+
+    fun guardarEscala(data: String, horario: String) {
+        // Guardar a escala no banco de dados ou back-end
+        // Exemplo simples: apenas logar a ação
+        println("Escala salva: Data - $data, Horário - $horario")
+    }
 }

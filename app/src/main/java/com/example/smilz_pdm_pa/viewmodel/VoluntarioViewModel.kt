@@ -45,4 +45,8 @@ class VoluntarioViewModel : ViewModel() {
             }
         }
     }
+
+    fun registrarEscala(data: String, horario: String) {
+        voluntarioRepository.guardarEscala(data, horario)
+    }
 }

@@ -58,7 +58,12 @@ class HomeActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.nav_calendars -> Toast.makeText(applicationContext, "Clicked Escalas", Toast.LENGTH_SHORT).show()
+                R.id.nav_calendars -> {
+                    val intent = Intent(this, EscalaActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
                 R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_logout -> {

@@ -4,49 +4,33 @@
     android:padding="16dp">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/text_id"
+        <!-- Calendar for selecting Saturdays -->
+        <CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ID:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center"/>
+            android:dateTextAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/text_nome"
+        <!-- Dropdown for selecting available hours -->
+        <Spinner
+            android:id="@+id/spinnerHoras"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginTop="16dp"
+            android:spinnerMode="dropdown" />
 
-        <TextView
-            android:id="@+id/text_contacto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contacto:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/text_reference"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Referência:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
+        <!-- Confirmation Button -->
         <Button
-            android:id="@+id/button_voltar"
-            android:layout_width="wrap_content"
+            android:id="@+id/buttonConfirmar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Voltar"
+            android:text="Confirmar"
             android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>

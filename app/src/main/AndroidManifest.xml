@@ -27,6 +27,10 @@
             android:theme="@style/AppTheme"
             android:exported="false" />
         <activity
+            android:name=".ui.EscalaActivity"
+            android:label=""
+            android:exported="false" />
+        <activity
             android:name=".ui.DetalhesBeneficiarioActivity"
             android:label=""
             android:exported="false" />
