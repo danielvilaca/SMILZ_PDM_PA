@@ -2,6 +2,7 @@ package com.example.smilz_pdm_pa.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.Button
@@ -23,6 +24,7 @@ import com.example.smilz_pdm_pa.viewmodel.BeneficiarioViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
+import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.InputStream
 
@@ -241,12 +243,76 @@ class MainActivity : AppCompatActivity() {
                 val beneficiarios = mutableListOf<BeneficiarioModel>()
 
                 // Ignorar a primeira linha (cabeçalhos)
-                for (row in sheet.drop(1)) {
-                    val id = row.getCell(0)?.numericCellValue?.toInt()?.toString() ?: "Sem ID"
-                    val nome = row.getCell(1)?.stringCellValue ?: "Sem Nome"
+                for (row in sheet.drop(2)) {
+                    try {
+                        Log.d("ExcelDebug", "Lendo linha ${row.rowNum}")
 
-                    if (id != "Sem ID" && nome != "Sem Nome") {
-                        beneficiarios.add(BeneficiarioModel(id = id, nome = nome))
+                        val id = row.getCell(0)?.let {
+                            Log.d("ExcelDebug", "Coluna ID: ${it.cellType}")
+                            if (it.cellType == CellType.NUMERIC) {
+                                it.numericCellValue.toInt().toString()
+                            } else {
+                                it.stringCellValue
+                            }
+                        } ?: "Sem ID"
+
+                        val nome = row.getCell(1)?.let {
+                            Log.d("ExcelDebug", "Coluna Nome: ${it.cellType}")
+                            it.stringCellValue
+                        } ?: "Sem Nome"
+
+                        val telemovel = row.getCell(2)?.let {
+                            Log.d("ExcelDebug", "Coluna Telemóvel: ${it.cellType}")
+                            it.stringCellValue
+                        } ?: ""
+
+                        val referencia = row.getCell(3)?.let {
+                            Log.d("ExcelDebug", "Coluna Referência: ${it.cellType}")
+                            it.stringCellValue
+                        } ?: ""
+
+                        val familia = row.getCell(4)?.let {
+                            Log.d("ExcelDebug", "Coluna Família: ${it.cellType}")
+                            it.numericCellValue.toInt()
+                        } ?: 0
+
+                        val nacionalidade = row.getCell(5)?.let {
+                            Log.d("ExcelDebug", "Coluna Nacionalidade: ${it.cellType}")
+                            it.stringCellValue
+                        } ?: ""
+
+                        val pedidos = row.getCell(6)?.let {
+                            Log.d("ExcelDebug", "Coluna Pedidos: ${it.cellType}")
+                            it.stringCellValue
+                        } ?: ""
+
+                        val notas = row.getCell(7)?.let {
+                            Log.d("ExcelDebug", "Coluna Notas: ${it.cellType}")
+                            it.stringCellValue
+                        } ?: ""
+
+                        val visitas = row.getCell(8)?.let {
+                            Log.d("ExcelDebug", "Coluna Visitas: ${it.cellType}")
+                            it.numericCellValue.toInt()
+                        } ?: 0
+
+                        if (id != "Sem ID" && nome != "Sem Nome") {
+                            beneficiarios.add(
+                                BeneficiarioModel(
+                                    id = id,
+                                    nome = nome,
+                                    contacto = telemovel,
+                                    reference = referencia,
+                                    family = familia,
+                                    nationality = nacionalidade,
+                                    requests = pedidos,
+                                    notes = notas,
+                                    numVisitas = visitas
+                                )
+                            )
+                        }
+                    } catch (cellException: Exception) {
+                        Log.e("ExcelDebug", "Erro ao processar linha ${row.rowNum}: ${cellException.message}")
                     }
                 }
 
@@ -263,9 +329,11 @@ class MainActivity : AppCompatActivity() {
 
             workbook.close()
         } catch (e: Exception) {
+            Log.e("ExcelDebug", "Erro geral ao processar o arquivo: ${e.message}", e)
             Toast.makeText(this, "Erro ao processar o arquivo: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
+
 
     private fun mostrarDetalhes(beneficiario: BeneficiarioModel) {
         // Exemplo: Abrir uma nova Activity para detalhes

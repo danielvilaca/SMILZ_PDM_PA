@@ -35,6 +35,14 @@ class BeneficiarioViewModel : ViewModel() {
         }
     }
 
+    // Função para excluir todos os beneficiários
+    fun deleteAllBeneficiarios() {
+        viewModelScope.launch {
+            repository.deleteAllBeneficiarios()
+            fetchBeneficiarios() // Atualiza a lista após exclusão
+        }
+    }
+
     fun updateBeneficiario(beneficiario: BeneficiarioModel, callback: (Boolean) -> Unit) {
         repository.updateBeneficiario(beneficiario, callback)
     }

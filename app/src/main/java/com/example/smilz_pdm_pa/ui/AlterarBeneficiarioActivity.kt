@@ -82,7 +82,7 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
         editFamily.setText(beneficiario.family?.toString() ?: "")
         editNationality.setText(beneficiario.nationality ?: "")
         editNotes.setText(beneficiario.notes ?: "")
-        editRequests.setText(beneficiario.requests ?: "")
+        editRequests.setText(beneficiario.reference ?: "")
         editNumVisitas.setText(beneficiario.numVisitas?.toString() ?: "")
     }
 

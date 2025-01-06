@@ -25,6 +25,14 @@ class BeneficiarioRepository {
         collection.document(id).delete().await()
     }
 
+    // Função para excluir todos os documentos
+    suspend fun deleteAllBeneficiarios() {
+        val snapshot = collection.get().await()
+        for (doc in snapshot.documents) {
+            doc.reference.delete().await() // Apaga cada documento
+        }
+    }
+
     suspend fun getBeneficiarioById(id: String): BeneficiarioModel? {
         val doc = collection.document(id).get().await()
         return doc.toObject(BeneficiarioModel::class.java)?.copy(id = doc.id)
