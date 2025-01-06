@@ -124,7 +124,8 @@ class MainActivity : AppCompatActivity() {
                 recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(
                     beneficiarios,
                     onDetailClick = { beneficiario -> mostrarDetalhes(beneficiario) },
-                    onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) }
+                    onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) },
+                    onAlterarClick = { beneficiario -> mostrarDetalhes(beneficiario) }
                 )
             }
         }
