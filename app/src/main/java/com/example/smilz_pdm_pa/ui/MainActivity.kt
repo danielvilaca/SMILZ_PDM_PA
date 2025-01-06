@@ -74,7 +74,10 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_calendars -> Toast.makeText(applicationContext, "Clicked Escalas", Toast.LENGTH_SHORT).show()
                 R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
-                R.id.nav_logout -> Toast.makeText(applicationContext, "Clicked Logout", Toast.LENGTH_SHORT).show()
+
+                R.id.nav_logout -> {
+                    LoginActivity.logout(this)
+                }
 
             }
             drawerLayout.closeDrawers()
