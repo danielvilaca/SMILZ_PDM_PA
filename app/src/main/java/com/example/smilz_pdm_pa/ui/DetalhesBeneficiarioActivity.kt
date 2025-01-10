@@ -124,6 +124,11 @@ class DetalhesBeneficiarioActivity : AppCompatActivity() {
             textNome.text = "Nome: ${beneficiario.nome}"
             textContacto.text = "Contacto: ${beneficiario.contacto ?: "N/A"}"
             textReference.text = "Referência: ${beneficiario.reference ?: "N/A"}"
+            textFamily.text = "Família: ${beneficiario.family ?: "N/A"}"
+            textNationality.text = "Nacionalidade: ${beneficiario.nationality ?: "N/A"}"
+            textRequests.text = "Pedidos: ${beneficiario.requests ?: "N/A"}"
+            textNotes.text = "Notas: ${beneficiario.notes ?: "N/A"}"
+
         }
     }
 }

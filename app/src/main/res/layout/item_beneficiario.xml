@@ -36,13 +36,14 @@
         android:layout_height="wrap_content"
         android:text="Ver Detalhes"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"/>
 
     <Button
         android:id="@+id/button_excluir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Excluir"
+        android:text="Desativar"
         android:layout_below="@id/button_ver_detalhes"
         android:layout_alignParentRight="true" />
 
@@ -50,10 +51,14 @@
         android:id="@+id/button_alterar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alterar"
+        android:text="Editar"
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/button_excluir"
         android:layout_alignParentRight="true"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
 
 
 </RelativeLayout>

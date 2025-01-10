@@ -95,6 +95,51 @@
             android:layout_marginBottom="8dp"
             android:layout_below="@id/text_contacto"
             android:gravity="center"/>
+        <TextView
+            android:id="@+id/text_family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Familia:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/text_numvisitas"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/text_nationality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nacionaldade:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/text_reference"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/text_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pedidos:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/text_nationality"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/text_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notas:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/text_requests"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/text_numvisitas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Numero de Visitas:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/text_notes"
+            android:gravity="center"/>
 
         <Button
             android:id="@+id/button_voltar"
@@ -104,7 +149,8 @@
             android:layout_marginTop="16dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/white"/>
 
 
     </RelativeLayout>

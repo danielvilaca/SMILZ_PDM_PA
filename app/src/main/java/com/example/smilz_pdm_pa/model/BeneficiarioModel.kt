@@ -1,5 +1,6 @@
 package com.example.smilz_pdm_pa.model
 
+
 data class BeneficiarioModel(
     val id: String = "",
     val nome: String = "",

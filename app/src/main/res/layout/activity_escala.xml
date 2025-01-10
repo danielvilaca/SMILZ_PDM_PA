@@ -51,6 +51,22 @@
                 android:layout_marginTop="16dp"
                 android:spinnerMode="dropdown" />
 
+            <TextView
+                android:id="@+id/escala_funcao_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Função: "
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="8dp"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+
+            <EditText
+                android:id="@+id/escala_funcao_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"/>
+
             <!-- Confirmation Button -->
             <Button
                 android:id="@+id/buttonConfirmar"
@@ -58,6 +74,26 @@
                 android:layout_height="wrap_content"
                 android:text="Confirmar"
                 android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/escala_agendada_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Escalas Agendadas: "
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="8dp"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_escalas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/escala_agendada_label"
+                android:layout_marginTop="20dp"
+                android:clipToPadding="false"
+                android:padding="8dp"/>
+
         </LinearLayout>
 
     </ScrollView>

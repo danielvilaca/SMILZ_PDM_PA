@@ -11,8 +11,12 @@
         android:id="@+id/edit_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text=""
+        android:inputType="text"
+        android:enabled="false"
         android:hint="ID do Beneficiário"
-        android:inputType="text" />
+        android:layout_marginTop="20dp" />
+
 
     <EditText
         android:id="@+id/edit_nome"
@@ -21,6 +25,48 @@
         android:hint="Nome do Beneficiário"
         android:inputType="text" />
 
+    <EditText
+        android:id="@+id/edit_contacto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contacto"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/edit_reference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Referencia"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/edit_family"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Familia"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/edit_nationality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nacionalidade"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/edit_requests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pedidos"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/edit_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notas"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/edit_numVisistas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Numero de Visitas"
+        android:inputType="text" />
 
 
 </LinearLayout>

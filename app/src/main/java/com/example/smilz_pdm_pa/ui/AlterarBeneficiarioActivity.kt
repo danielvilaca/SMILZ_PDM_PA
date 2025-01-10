@@ -1,12 +1,20 @@
 package com.example.smilz_pdm_pa.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.smilz_pdm_pa.R
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.smilz_pdm_pa.R.id
+import com.example.smilz_pdm_pa.R.layout
+import com.example.smilz_pdm_pa.R.string
+import com.example.smilz_pdm_pa.databinding.ActivityAlterarDadosBinding
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AlterarBeneficiarioActivity : AppCompatActivity() {
@@ -23,24 +31,84 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
     private lateinit var buttonSalvar: Button
     private lateinit var beneficiaryId: String
 
+    private lateinit var binding: ActivityAlterarDadosBinding
+    lateinit var toggle : ActionBarDrawerToggle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_alterar_dados)
+        setContentView(layout.activity_alterar_dados)
+        binding = ActivityAlterarDadosBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Configura a Toolbar personalizada
+        val toolbar: Toolbar = findViewById(id.toolbar)
+        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+
+
+        val drawerLayout : DrawerLayout = findViewById(id.drawerLayout)
+        val navView : NavigationView = findViewById(id.nav_view)
+
+        //toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, string.open, string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navView.setNavigationItemSelectedListener {
+
+            when(it.itemId){
+
+                id.nav_home -> {
+                    // Redireciona para a MainActivity (Beneficiarios)
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+                id.nav_beneficiarios -> {
+                    // Redireciona para a MainActivity (Beneficiarios)
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+                id.nav_calendars -> {
+                    val intent = Intent(this, EscalaActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+                id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
+
+                id.nav_logout -> {
+                    LoginActivity.logout(this)
+                }
+
+            }
+            drawerLayout.closeDrawers()
+
+            true
+        }
+
+        // Configurar botão de voltar
+        binding.buttonVoltar.setOnClickListener { finish() }
+
 
         // Obtendo o ID do beneficiário passado pela Intent
         beneficiaryId = intent.getStringExtra("beneficiaryId") ?: return
 
         // Inicializando os campos de UI
-        editId = findViewById(R.id.edit_id)
-        editNome = findViewById(R.id.edit_nome)
-        editContacto = findViewById(R.id.edit_contacto)
-        editReference = findViewById(R.id.edit_reference)
-        editFamily = findViewById(R.id.edit_family)
-        editNationality = findViewById(R.id.edit_nationality)
-        editNotes = findViewById(R.id.edit_notes)
-        editRequests = findViewById(R.id.edit_requests)
-        editNumVisitas = findViewById(R.id.edit_num_visitas)
-        buttonSalvar = findViewById(R.id.button_salvar)
+        editId = findViewById(id.edit_id)
+        editNome = findViewById(id.edit_nome)
+        editContacto = findViewById(id.edit_contacto)
+        editReference = findViewById(id.edit_reference)
+        editFamily = findViewById(id.edit_family)
+        editNationality = findViewById(id.edit_nationality)
+        editNotes = findViewById(id.edit_notes)
+        editRequests = findViewById(id.edit_requests)
+        editNumVisitas = findViewById(id.edit_num_visitas)
+        buttonSalvar = findViewById(id.button_salvar)
 
         // Preenchendo o campo de ID
         editId.setText(beneficiaryId)

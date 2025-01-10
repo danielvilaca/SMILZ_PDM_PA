@@ -168,15 +168,20 @@ class MainActivity : AppCompatActivity() {
         val editNome: EditText = view.findViewById(R.id.edit_nome)
         val editId: EditText = view.findViewById(R.id.edit_id)
 
+        // Gerar um ID único automaticamente
+        val id = (System.currentTimeMillis()).toString()  // Usando o timestamp como ID único
+
+        // Configurar o campo edit_id para mostrar o ID gerado, mas não permitir edição
+        editId.setText(id)
+        editId.isEnabled = false  // Impede a edição do ID
+
         // Configurar o diálogo
         val dialog = AlertDialog.Builder(this)
             .setTitle("Adicionar Beneficiário")
             .setView(view)
             .setPositiveButton("Adicionar") { _, _ ->
                 val nome = editNome.text.toString()
-                val id = editId.text.toString()
-
-                if (nome.isNotEmpty() && id.isNotEmpty()) {
+                if (nome.isNotEmpty()) {
                     val beneficiario = BeneficiarioModel(id = id, nome = nome)
                     lifecycleScope.launch {
                         beneficiarioViewModel.addBeneficiario(beneficiario)
@@ -199,6 +204,9 @@ class MainActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
+
+
 
 
 
@@ -246,6 +254,13 @@ class MainActivity : AppCompatActivity() {
                 for (row in sheet.drop(2)) {
                     try {
                         Log.d("ExcelDebug", "Lendo linha ${row.rowNum}")
+
+                        //TESTAR
+
+                        /*val id = row.getCell(8)?.let {
+                            Log.d("ExcelDebug", "ID: ${it.cellType}")
+                            it.numericCellValue.toInt()
+                        } ?: 0*/
 
                         val id = row.getCell(0)?.let {
                             Log.d("ExcelDebug", "Coluna ID: ${it.cellType}")

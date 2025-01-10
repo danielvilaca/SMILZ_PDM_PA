@@ -65,5 +65,8 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // Configurar botão de voltar
+        binding.buttonVoltar.setOnClickListener { finish() }
     }
 }
