@@ -24,4 +24,24 @@
     <string name="escalas">Escalas</string>
     <string name="beneficiarios">Beneficiarios</string>
     <string name="home">Home</string>
+
+    <string-array name="anos">
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+    </string-array>
+    <string-array name="meses">
+        <item>Janeiro</item>
+        <item>Fevereiro</item>
+        <item>Março</item>
+        <!-- Adicione todos os meses -->
+    </string-array>
+    <string-array name="nacionalidades">
+        <item>Todas</item>
+        <item>Portuguesa</item>
+        <item>Brasileira</item>
+        <item>Angolana</item>
+        <!-- Adicione outras nacionalidades relevantes -->
+    </string-array>
+
 </resources>

@@ -5,8 +5,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.model.Escala
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class EscalasAdapter(private var escalas: List<Escala>) : RecyclerView.Adapter<EscalasAdapter.EscalaViewHolder>() {
+
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EscalaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_escala, parent, false)

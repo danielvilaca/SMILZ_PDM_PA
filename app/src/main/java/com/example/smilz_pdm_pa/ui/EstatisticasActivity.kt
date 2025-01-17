@@ -3,20 +3,55 @@ package com.example.smilz_pdm_pa.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smilz_pdm_pa.R
+import com.example.smilz_pdm_pa.model.Relatorio
+import com.example.smilz_pdm_pa.ui.adapter.RelatoriosAdapter
 import com.google.android.material.navigation.NavigationView
 
 class EstatisticasActivity : AppCompatActivity() {
 
     lateinit var toggle : ActionBarDrawerToggle
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var relatoriosAdapter: RelatoriosAdapter
+    private val listaRelatorios = mutableListOf<Relatorio>() // Lista de relatórios gerados
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_estatisticas) // Conecta o layout à Activity
+
+        // Configuração da RecyclerView
+        recyclerView = findViewById(R.id.recyclerView_escalas)
+        relatoriosAdapter = RelatoriosAdapter(listaRelatorios) { relatorio ->
+            // Callback para abrir a nova Activity ao clicar no botão "Ver"
+            val intent = Intent(this, ResultadoRelatorioActivity::class.java)
+            intent.putExtra("relatorio", relatorio) // Passa o relatório como argumento
+            startActivity(intent)
+        }
+        recyclerView.adapter = relatoriosAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Configuração do botão para gerar relatórios
+        val botaoGerarRelatorio: Button = findViewById(R.id.button_gerar_relatorio)
+        botaoGerarRelatorio.setOnClickListener {
+            // Simula a geração de um relatório (substitua pela lógica real)
+            val novoRelatorio = Relatorio(
+                ano = "2024",  // Alterado para String
+                mes = "Dezembro",
+                nacionalidade = "Todas",  // Passando corretamente a nacionalidade
+                numeroVisitas = 120,
+                dadosGrafico = mapOf("Portuguesa" to 50, "Brasileira" to 30, "Angolana" to 20)
+            )
+            listaRelatorios.add(novoRelatorio)
+            relatoriosAdapter.notifyDataSetChanged() // Atualiza a RecyclerView
+        }
 
         // Configura a Toolbar personalizada
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -84,7 +119,6 @@ class EstatisticasActivity : AppCompatActivity() {
         if(toggle.onOptionsItemSelected(item)){
             return true
         }
-
 
         return super.onOptionsItemSelected(item)
     }

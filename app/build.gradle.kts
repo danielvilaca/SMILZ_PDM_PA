@@ -74,5 +74,7 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.6.1'")
     implementation ("androidx.drawerlayout:drawerlayout:1.2.0")
 
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
 }

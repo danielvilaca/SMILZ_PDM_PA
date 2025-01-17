@@ -39,6 +39,14 @@
             android:label=""
             android:exported="false" />
         <activity
+            android:name=".ui.RelatorioEstatisticasActivity"
+            android:label=""
+            android:exported="false" />
+        <activity
+            android:name=".ui.ResultadoRelatorioActivity"
+            android:label=""
+            android:exported="false" />
+        <activity
             android:name=".ui.AlterarBeneficiarioActivity"
             android:label=""
             android:exported="false" />
