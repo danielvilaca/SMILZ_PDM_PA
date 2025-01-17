@@ -52,13 +52,11 @@
             android:gravity="center"
             android:hint="Email"
             android:drawableStart="@drawable/baseline_person_24"/>
-        <EditText
-            android:id="@+id/edit_role"
+        <Spinner
+            android:id="@+id/spinner_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Função (Admin - Vol - VolL - PresJunta)"
-            android:drawableStart="@drawable/baseline_badge_24" />
+            android:layout_marginTop="20dp" />
 
         <EditText
             android:id="@+id/edit_password"

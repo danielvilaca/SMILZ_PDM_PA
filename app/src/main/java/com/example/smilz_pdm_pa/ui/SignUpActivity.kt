@@ -1,7 +1,9 @@
 package com.example.smilz_pdm_pa.ui
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +25,12 @@ class SignUpActivity : AppCompatActivity() {
         // Inicializa o ViewModel
         voluntarioViewModel = ViewModelProvider(this).get(VoluntarioViewModel::class.java)
 
+        // Preencher o Spinner com as funções fixas
+        val roles = arrayOf("Admin", "Vol", "VolL", "PresJunta")
+        val roleAdapter = ArrayAdapter(this, R.layout.simple_spinner_item, roles)
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerRole.adapter = roleAdapter
+
         // Observa o estado de registo
         voluntarioViewModel.isUserRegistered.observe(this) { isRegistered ->
             if (isRegistered) {
@@ -42,7 +50,7 @@ class SignUpActivity : AppCompatActivity() {
             val password = binding.editPassword.text.toString()
             val confirmPassword = binding.editConfirmPassword.text.toString()
             val nome = binding.editName.text.toString()
-            val role = "voluntario"  // Pode ser fixo ou dinâmico, dependendo do seu design
+            val role = binding.spinnerRole.selectedItem.toString()  // Obtém o valor selecionado no Spinner
 
             // Verifica se todos os campos estão preenchidos
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && nome.isNotEmpty()) {
