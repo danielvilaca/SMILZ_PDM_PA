@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerViewBeneficiarios: RecyclerView
     private lateinit var buttonUploadExcel: Button
     private lateinit var buttonAddBeneficiario: FloatingActionButton
+    private lateinit var buttonOrder: FloatingActionButton
 
     lateinit var toggle : ActionBarDrawerToggle
 
@@ -44,10 +45,15 @@ class MainActivity : AppCompatActivity() {
 
         // Inicializando a referência do botão
         buttonAddBeneficiario = findViewById(R.id.button_add_beneficiario)
+        buttonOrder = findViewById(R.id.button_order)
 
         // Configurando o clique do botão para abrir o diálogo de adicionar beneficiário
         buttonAddBeneficiario.setOnClickListener {
             adicionarBeneficiario()
+        }
+
+        buttonOrder.setOnClickListener {
+            mostrarDialogoDeFiltro()
         }
 
 
@@ -155,6 +161,76 @@ class MainActivity : AppCompatActivity() {
             abrirSeletorDeArquivo()
         }
     }
+
+    private fun mostrarDialogoDeFiltro() {
+        val opcoes = arrayOf("Procurar por nome", "Ordenar por ID", "Ordenar por Nome")
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Filtrar/Ordenar Beneficiários")
+            .setItems(opcoes) { _, which ->
+                when (which) {
+                    0 -> procurarPorNome()
+                    1 -> ordenarPorId()
+                    2 -> ordenarPorNome()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun procurarPorNome() {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_procurar_beneficiario, null)
+        val editTextNome: EditText = view.findViewById(R.id.edit_text_nome)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Procurar Beneficiário")
+            .setView(view)
+            .setPositiveButton("Procurar") { _, _ ->
+                val nome = editTextNome.text.toString()
+                if (nome.isNotEmpty()) {
+                    lifecycleScope.launch {
+                        val beneficiariosFiltrados = beneficiarioViewModel.beneficiarios.value.filter {
+                            it.nome.contains(nome, ignoreCase = true)
+                        }
+                        atualizarRecyclerView(beneficiariosFiltrados)
+                    }
+                } else {
+                    Toast.makeText(this, "Digite um nome para pesquisar.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun ordenarPorId() {
+        lifecycleScope.launch {
+            val beneficiariosOrdenados = beneficiarioViewModel.beneficiarios.value.sortedBy { it.id.toIntOrNull() ?: Int.MAX_VALUE }
+            atualizarRecyclerView(beneficiariosOrdenados)
+        }
+    }
+
+    private fun ordenarPorNome() {
+        lifecycleScope.launch {
+            val beneficiariosOrdenados = beneficiarioViewModel.beneficiarios.value.sortedBy { it.nome }
+            atualizarRecyclerView(beneficiariosOrdenados)
+        }
+    }
+
+    private fun atualizarRecyclerView(novaLista: List<BeneficiarioModel>) {
+        recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(
+            novaLista,
+            onDetailClick = { beneficiario -> mostrarDetalhes(beneficiario) },
+            onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) },
+            onAlterarClick = { beneficiario -> alterarBeneficiario(beneficiario) }
+        )
+    }
+
+
+
+
 
     private fun confirmarExclusao(beneficiario: BeneficiarioModel) {
         val dialog = AlertDialog.Builder(this)
@@ -382,10 +458,17 @@ class MainActivity : AppCompatActivity() {
 
                 // Adicionar beneficiários ao Firebase
                 lifecycleScope.launch {
-                    beneficiarios.forEach { beneficiario ->
-                        beneficiarioViewModel.addBeneficiario(beneficiario)
+                    beneficiarioViewModel.setLoading(true)
+                    try {
+                        Toast.makeText(this@MainActivity, "A fazer upload...", Toast.LENGTH_SHORT).show()
+                        beneficiarioViewModel.addBeneficiarios(beneficiarios)
+                        Toast.makeText(this@MainActivity, "Upload concluído!", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        Log.e("ExcelDebug", "Erro ao fazer upload: ${e.message}", e)
+                        Toast.makeText(this@MainActivity, "Erro no upload!", Toast.LENGTH_LONG).show()
+                    } finally {
+                        beneficiarioViewModel.setLoading(false)
                     }
-                    Toast.makeText(this@MainActivity, "Upload concluído!", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Planilha 'Beneficiários-novo' não encontrada.", Toast.LENGTH_SHORT).show()

@@ -1,5 +1,7 @@
 package com.example.smilz_pdm_pa.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smilz_pdm_pa.model.BeneficiarioModel
@@ -9,6 +11,25 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class BeneficiarioViewModel : ViewModel() {
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+    fun setLoading(isLoading: Boolean) {
+        _isLoading.value = isLoading
+    }
+
+    suspend fun addBeneficiarios(beneficiarios: List<BeneficiarioModel>) {
+        setLoading(true) // Iniciar o estado de carregamento
+        try {
+            beneficiarios.forEach { beneficiario ->
+                // Adicionar cada beneficiário (simula a operação com Firebase ou outro backend)
+                addBeneficiario(beneficiario)
+            }
+        } finally {
+            setLoading(false) // Finalizar o estado de carregamento
+        }
+    }
 
     private val repository = BeneficiarioRepository()
 
