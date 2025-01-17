@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.smilz_pdm_pa.R
 import com.example.smilz_pdm_pa.R.id
 import com.example.smilz_pdm_pa.R.layout
 import com.example.smilz_pdm_pa.R.string
@@ -79,7 +80,11 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
                     finish()
                 }
 
-                id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
+                R.id.nav_stats -> {
+                    val intent = Intent(this, EstatisticasActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
                 id.nav_logout -> {
                     LoginActivity.logout(this)
@@ -125,7 +130,7 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
 
     private fun carregarDadosBeneficiario() {
         val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("beneficiarios").document(beneficiaryId)
+        val docRef = db.collection("beneficiarios2").document(beneficiaryId)
 
         docRef.get()
             .addOnSuccessListener { document ->
@@ -182,7 +187,7 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
         )
 
         val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("beneficiarios").document(beneficiaryId)
+        val docRef = db.collection("beneficiarios2").document(beneficiaryId)
 
         docRef.set(beneficiarioAtualizado)
             .addOnSuccessListener {

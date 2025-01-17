@@ -29,7 +29,7 @@ class EscalaActivity : AppCompatActivity() {
     lateinit var toggle : ActionBarDrawerToggle
 
     private var dataSelecionada: String? = null
-    private val horariosDisponiveis = listOf("09:00 - 11:00", "11:00 - 13:00", "14:00 - 16:00", "16:00 - 18:00")
+    private val horariosDisponiveis = listOf("15:00 - 16:00", "16:00 - 17:00", "15:00 - 17:00")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +72,17 @@ class EscalaActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.nav_calendars -> Toast.makeText(applicationContext, "Clicked Escalas", Toast.LENGTH_SHORT).show()
-                R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
+                R.id.nav_calendars -> {
+                    val intent = Intent(this, EscalaActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+                R.id.nav_stats -> {
+                    val intent = Intent(this, EstatisticasActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
                 R.id.nav_logout -> {
                     LoginActivity.logout(this)

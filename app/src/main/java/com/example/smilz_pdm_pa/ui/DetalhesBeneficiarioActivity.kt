@@ -72,7 +72,11 @@ class DetalhesBeneficiarioActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
+                R.id.nav_stats -> {
+                    val intent = Intent(this, EstatisticasActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
                 R.id.nav_logout -> {
                     LoginActivity.logout(this)

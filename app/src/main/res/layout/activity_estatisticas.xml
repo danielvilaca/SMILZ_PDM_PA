@@ -1,6 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.DetalhesBeneficiarioActivity"
+    android:background="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Conteúdo principal -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:backgroundTint="@color/white"
+            app:navigationIcon="@drawable/baseline_menu_24"
+            app:layout_constraintTop_toTopOf="@id/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="40dp"
+            android:layout_marginLeft="5dp"/>
+
+        <!-- Seu layout existente -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/smilzlogo"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/text_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loja_social_de_s_o_l_zaro_e_s_o_jo_o_do_souto"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/logo"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultar Relatórios"
+            android:textStyle="bold"
+            android:layout_below="@+id/text_logo"
+            android:textSize="25dp"
+            android:gravity="center"/>
+
+        <View
+            android:id="@+id/view_cima"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/text_label"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/text_funcao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data (Ano e Mês)"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/view_cima"
+            android:layout_marginLeft="70dp"
+            />
+
+        <TextView
+            android:id="@+id/text_acao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ação"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/view_cima"
+            android:layout_marginRight="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"/>
+
+        <View
+            android:id="@+id/view_baixo"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@id/text_acao"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_escalas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/button_voltar"
+            android:layout_below="@id/view_baixo"
+            android:layout_marginTop="30dp"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"/>
+
+
+
+
+        <Button
+            android:id="@+id/button_voltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltar"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/white"/>
+
+
+    </RelativeLayout>
+
+    <!-- Menu -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

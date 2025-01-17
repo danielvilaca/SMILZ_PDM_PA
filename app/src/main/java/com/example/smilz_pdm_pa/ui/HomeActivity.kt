@@ -3,7 +3,6 @@ package com.example.smilz_pdm_pa.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -64,7 +63,11 @@ class HomeActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
+                R.id.nav_stats -> {
+                    val intent = Intent(this, EstatisticasActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
                 R.id.nav_logout -> {
                     LoginActivity.logout(this)

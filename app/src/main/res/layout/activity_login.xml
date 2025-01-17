@@ -49,7 +49,7 @@
             android:id="@+id/checkbox_logged"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/keep_me_logged_in"/>
+            android:text="Manter-me Logado(a)"/>
 
         <Button
             android:id="@+id/button_login"
@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/dont_have_account_sign_up"
+        android:text="Não tem uma conta? Registe-se Agora!"
         android:gravity="center"
         android:layout_margin="40dp"/>
 
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/text_sign_up"
-        android:text="@string/recover_your_password"
+        android:text="Recuperar Password"
         android:gravity="center"
         android:layout_margin="0dp"/>
 

@@ -7,7 +7,7 @@ import kotlinx.coroutines.tasks.await
 class BeneficiarioRepository {
 
     private val db = FirebaseFirestore.getInstance()
-    private val collection = db.collection("beneficiarios")
+    private val collection = db.collection("beneficiarios2")
 
     suspend fun addBeneficiario(beneficiario: BeneficiarioModel) {
         //collection.add(beneficiario).await()
@@ -15,7 +15,8 @@ class BeneficiarioRepository {
     }
 
     suspend fun getBeneficiarios(): List<BeneficiarioModel> {
-        val snapshot = collection.get().await()
+        //val snapshot = collection.get().await()
+        val snapshot = collection.orderBy("id").get().await()
         return snapshot.documents.mapNotNull { doc ->
             doc.toObject(BeneficiarioModel::class.java)?.copy(id = doc.id)
         }
@@ -39,7 +40,7 @@ class BeneficiarioRepository {
     }
 
     fun updateBeneficiario(beneficiario: BeneficiarioModel, callback: (Boolean) -> Unit) {
-        db.collection("beneficiarios").document(beneficiario.id).set(beneficiario)
+        db.collection("beneficiarios2").document(beneficiario.id).set(beneficiario)
             .addOnSuccessListener {
                 callback(true)
             }

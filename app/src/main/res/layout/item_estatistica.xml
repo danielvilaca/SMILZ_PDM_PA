@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:backgroundTint="@color/white">
+
+    <!-- Exibição do Nome -->
+    <TextView
+        android:id="@+id/text_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2024-Dezembro"
+        android:textSize="18sp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/button_ver_detalhes"
+        android:layout_marginEnd="16dp" />
+
+
+    <!-- Botão para ver detalhes -->
+    <Button
+        android:id="@+id/button_ver_detalhes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"/>
+
+
+
+    <View
+        android:id="@+id/view_item_cima"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <View
+        android:id="@+id/view_item_baixo"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@id/button_ver_detalhes"
+        android:layout_marginTop="10dp"/>
+
+
+</RelativeLayout>

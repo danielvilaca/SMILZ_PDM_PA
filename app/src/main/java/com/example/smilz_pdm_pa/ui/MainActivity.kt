@@ -93,7 +93,11 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.nav_stats -> Toast.makeText(applicationContext, "Clicked Estatisticas", Toast.LENGTH_SHORT).show()
+                R.id.nav_stats -> {
+                    val intent = Intent(this, EstatisticasActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
                 R.id.nav_logout -> {
                     LoginActivity.logout(this)
@@ -122,14 +126,24 @@ class MainActivity : AppCompatActivity() {
 
         // Observar o StateFlow usando lifecycleScope
         lifecycleScope.launch {
-            beneficiarioViewModel.beneficiarios.collect { beneficiarios ->
+            /*beneficiarioViewModel.beneficiarios.collect { beneficiarios ->
                 recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(
                     beneficiarios,
                     onDetailClick = { beneficiario -> mostrarDetalhes(beneficiario) },
                     onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) },
                     onAlterarClick = { beneficiario -> alterarBeneficiario(beneficiario) }
                 )
+            }*/
+            beneficiarioViewModel.beneficiarios.collect { beneficiarios ->
+                val beneficiariosOrdenados = beneficiarios.sortedBy { it.id.toIntOrNull() ?: Int.MAX_VALUE }
+                recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(
+                    beneficiariosOrdenados,
+                    onDetailClick = { beneficiario -> mostrarDetalhes(beneficiario) },
+                    onDeleteClick = { beneficiario -> confirmarExclusao(beneficiario) },
+                    onAlterarClick = { beneficiario -> alterarBeneficiario(beneficiario) }
+                )
             }
+
         }
 
         // Carregar os beneficiários da base de dados
@@ -250,84 +264,119 @@ class MainActivity : AppCompatActivity() {
             if (sheet != null) {
                 val beneficiarios = mutableListOf<BeneficiarioModel>()
 
-                // Ignorar a primeira linha (cabeçalhos)
+                // Ignorar as primeiras linhas (cabeçalhos)
                 for (row in sheet.drop(2)) {
                     try {
                         Log.d("ExcelDebug", "Lendo linha ${row.rowNum}")
 
-                        //TESTAR
-
-                        /*val id = row.getCell(8)?.let {
-                            Log.d("ExcelDebug", "ID: ${it.cellType}")
-                            it.numericCellValue.toInt()
-                        } ?: 0*/
-
-                        val id = row.getCell(0)?.let {
-                            Log.d("ExcelDebug", "Coluna ID: ${it.cellType}")
-                            if (it.cellType == CellType.NUMERIC) {
-                                it.numericCellValue.toInt().toString()
-                            } else {
-                                it.stringCellValue
-                            }
-                        } ?: "Sem ID"
-
-                        val nome = row.getCell(1)?.let {
-                            Log.d("ExcelDebug", "Coluna Nome: ${it.cellType}")
-                            it.stringCellValue
-                        } ?: "Sem Nome"
-
-                        val telemovel = row.getCell(2)?.let {
-                            Log.d("ExcelDebug", "Coluna Telemóvel: ${it.cellType}")
-                            it.stringCellValue
-                        } ?: ""
-
-                        val referencia = row.getCell(3)?.let {
-                            Log.d("ExcelDebug", "Coluna Referência: ${it.cellType}")
-                            it.stringCellValue
-                        } ?: ""
-
-                        val familia = row.getCell(4)?.let {
-                            Log.d("ExcelDebug", "Coluna Família: ${it.cellType}")
-                            it.numericCellValue.toInt()
-                        } ?: 0
-
-                        val nacionalidade = row.getCell(5)?.let {
-                            Log.d("ExcelDebug", "Coluna Nacionalidade: ${it.cellType}")
-                            it.stringCellValue
-                        } ?: ""
-
-                        val pedidos = row.getCell(6)?.let {
-                            Log.d("ExcelDebug", "Coluna Pedidos: ${it.cellType}")
-                            it.stringCellValue
-                        } ?: ""
-
-                        val notas = row.getCell(7)?.let {
-                            Log.d("ExcelDebug", "Coluna Notas: ${it.cellType}")
-                            it.stringCellValue
-                        } ?: ""
-
-                        val visitas = row.getCell(8)?.let {
-                            Log.d("ExcelDebug", "Coluna Visitas: ${it.cellType}")
-                            it.numericCellValue.toInt()
-                        } ?: 0
-
-                        if (id != "Sem ID" && nome != "Sem Nome") {
-                            beneficiarios.add(
-                                BeneficiarioModel(
-                                    id = id,
-                                    nome = nome,
-                                    contacto = telemovel,
-                                    reference = referencia,
-                                    family = familia,
-                                    nationality = nacionalidade,
-                                    requests = pedidos,
-                                    notes = notas,
-                                    numVisitas = visitas
-                                )
-                            )
+                        // Verificar se a célula do ID está vazia ou inválida
+                        val idCell = row.getCell(0)
+                        if (idCell == null || (idCell.cellType == CellType.BLANK)) {
+                            Log.d("ExcelDebug", "Célula de ID vazia na linha ${row.rowNum}, interrompendo processamento.")
+                            break // Interromper o loop
                         }
-                    } catch (cellException: Exception) {
-                        Log.e("ExcelDebug", "Erro ao processar linha ${row.rowNum}: ${cellException.message}")
+
+                        // Log para verificar o tipo de célula ID
+                        Log.d("ExcelDebug", "ID: Tipo de célula: ${idCell.cellType}")
+
+                        val id = when (idCell.cellType) {
+                            CellType.NUMERIC -> idCell.numericCellValue.toInt().toString()
+                            CellType.STRING -> idCell.stringCellValue
+                            CellType.FORMULA -> {
+                                val evaluator = workbook.creationHelper.createFormulaEvaluator()
+                                val cellValue = evaluator.evaluate(idCell)
+                                when (cellValue.cellType) {
+                                    CellType.NUMERIC -> cellValue.numberValue.toInt().toString()
+                                    CellType.STRING -> cellValue.stringValue
+                                    else -> {
+                                        Log.e("ExcelDebug", "Tipo de fórmula não suportado na linha ${row.rowNum}")
+                                        "Erro"
+                                    }
+                                }
+                            }
+                            else -> {
+                                Log.e("ExcelDebug", "Tipo de célula não suportado na linha ${row.rowNum}")
+                                "Erro"
+                            }
+                        }
+
+
+                        Log.d("ExcelDebug", "ID processado: $id")
+
+                        // Processar cada coluna com logs detalhados
+                        val nome = try {
+                            row.getCell(1)?.stringCellValue ?: "Sem Nome"
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Nome' na linha ${row.rowNum}: ${e.message}")
+                            "Erro no Nome"
+                        }
+
+                        val telemovel = try {
+                            row.getCell(2)?.stringCellValue ?: ""
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Telemóvel' na linha ${row.rowNum}: ${e.message}")
+                            ""
+                        }
+
+                        val referencia = try {
+                            row.getCell(3)?.stringCellValue ?: ""
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Referência' na linha ${row.rowNum}: ${e.message}")
+                            ""
+                        }
+
+                        val familia = try {
+                            row.getCell(4)?.numericCellValue?.toInt() ?: 0
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Família' na linha ${row.rowNum}: ${e.message}")
+                            0
+                        }
+
+                        val nacionalidade = try {
+                            row.getCell(5)?.stringCellValue ?: ""
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Nacionalidade' na linha ${row.rowNum}: ${e.message}")
+                            ""
+                        }
+
+                        val pedidos = try {
+                            row.getCell(6)?.stringCellValue ?: ""
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Pedidos' na linha ${row.rowNum}: ${e.message}")
+                            ""
+                        }
+
+                        val notas = try {
+                            row.getCell(7)?.stringCellValue ?: ""
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Notas' na linha ${row.rowNum}: ${e.message}")
+                            ""
+                        }
+
+                        val visitas = try {
+                            row.getCell(8)?.numericCellValue?.toInt() ?: 0
+                        } catch (e: Exception) {
+                            Log.e("ExcelDebug", "Erro ao processar 'Visitas' na linha ${row.rowNum}: ${e.message}")
+                            0
+                        }
+
+                        beneficiarios.add(
+                            BeneficiarioModel(
+                                id = id,
+                                nome = nome,
+                                contacto = telemovel,
+                                reference = referencia,
+                                family = familia,
+                                nationality = nacionalidade,
+                                requests = pedidos,
+                                notes = notas,
+                                numVisitas = visitas
+                            )
+                        )
+
+                        Log.d("ExcelDebug", "Beneficiário adicionado: $id")
+                    } catch (rowException: Exception) {
+                        Log.e("ExcelDebug", "Erro ao processar linha ${row.rowNum}: ${rowException.message}")
                     }
                 }
 
@@ -348,6 +397,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Erro ao processar o arquivo: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
+
+
 
 
     private fun mostrarDetalhes(beneficiario: BeneficiarioModel) {

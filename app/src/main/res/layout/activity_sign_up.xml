@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="@string/name"
+            android:hint="Nome"
             android:drawableStart="@drawable/baseline_person_24"
             android:layout_marginTop="100dp"/>
         <EditText
@@ -50,14 +50,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="@string/email"
+            android:hint="Email"
             android:drawableStart="@drawable/baseline_person_24"/>
         <EditText
             android:id="@+id/edit_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="@string/role"
+            android:hint="Função (Admin - Vol - VolL - PresJunta)"
             android:drawableStart="@drawable/baseline_badge_24" />
 
         <EditText
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="@string/confirm_password"
+            android:hint="Confirme a Password"
             android:drawableStart="@drawable/baseline_lock_24"
             android:inputType="textPassword"/>
 
