@@ -1,5 +1,6 @@
 package com.example.smilz_pdm_pa.ui
 
+import EscalasAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -12,12 +13,18 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smilz_pdm_pa.R
+import com.example.smilz_pdm_pa.model.Escala
 import com.example.smilz_pdm_pa.viewmodel.VoluntarioViewModel
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 class EscalaActivity : AppCompatActivity() {
 
@@ -25,6 +32,11 @@ class EscalaActivity : AppCompatActivity() {
     private lateinit var calendarView: CalendarView
     private lateinit var spinnerHoras: Spinner
     private lateinit var buttonConfirmar: Button
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: EscalasAdapter
+    private lateinit var firestore: FirebaseFirestore
+
 
     lateinit var toggle : ActionBarDrawerToggle
 
@@ -34,6 +46,23 @@ class EscalaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_escala)
+
+        // Inicialização do Firestore
+        firestore = FirebaseFirestore.getInstance()
+
+        // Configura o RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewEscalas)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        adapter = EscalasAdapter(emptyList())
+        recyclerView.adapter = adapter
+
+        getEscalas()
+
+        // Obter escalas em tempo real
+        voluntarioViewModel.obterEscalasEmTempoReal { escalas ->
+            adapter.atualizarEscalas(escalas)
+        }
 
 
         // Configura a Toolbar personalizada
@@ -122,16 +151,63 @@ class EscalaActivity : AppCompatActivity() {
         buttonConfirmar.setOnClickListener {
             if (dataSelecionada != null) {
                 val horarioSelecionado = spinnerHoras.selectedItem.toString()
-                confirmarEscala(dataSelecionada!!, horarioSelecionado)
+
+                // Supondo que você tenha acesso ao ID e nome do voluntário
+                val voluntarioId = "user123"  // Substitua com a lógica de obter o ID do voluntário
+                val voluntarioNome = "João Silva"  // Substitua com a lógica de obter o nome do voluntário
+
+                // Passando todos os parâmetros necessários
+                confirmarEscala(dataSelecionada!!, horarioSelecionado, voluntarioId, voluntarioNome)
             } else {
                 Toast.makeText(this, "Selecione um sábado e um horário.", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
-    private fun confirmarEscala(data: String, horario: String) {
-        // Chamada ao ViewModel para salvar a escala
-        voluntarioViewModel.registrarEscala(data, horario)
+    private fun getEscalas() {
+        firestore.collection("escalas")
+            .orderBy("criadoEm", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+                val escalasList = mutableListOf<Escala>()
+                for (document in documents) {
+                    val data = document.getString("data") ?: ""
+                    val horario = document.getString("horario") ?: ""
+                    val voluntarioId = document.getString("voluntarioId") ?: ""
+                    val voluntarioNome = document.getString("voluntarioNome") ?: ""
+                    val criadoEm = document.getString("criadoEm") ?: ""
+
+                    val escala = Escala(data, horario, voluntarioId, voluntarioNome, criadoEm)
+                    escalasList.add(escala)
+                }
+
+                // Atualizar o adaptador com os dados
+                adapter.atualizarEscalas(escalasList)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao carregar escalas", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
+    private fun confirmarEscala(data: String, horario: String, voluntarioId: String, voluntarioNome: String) {
+        // Aqui estamos criando um objeto Escala com todos os dados necessários
+        val escala = Escala(
+            data = data,
+            horario = horario,
+            voluntarioId = voluntarioId,
+            voluntarioNome = voluntarioNome,
+            criadoEm = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(Calendar.getInstance().time)  // Exemplo de data/hora atual
+        )
+
+        // Agora você pode chamar o método para registrar a escala no ViewModel
+        voluntarioViewModel.registrarEscala(escala)
+
+        // Feedback para o usuário
         Toast.makeText(this, "Escala confirmada para $data às $horario.", Toast.LENGTH_SHORT).show()
     }
+
+
 }

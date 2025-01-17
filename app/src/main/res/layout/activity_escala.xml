@@ -8,11 +8,6 @@
     tools:context=".ui.EscalaActivity"
     android:background="@color/white">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
-
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -86,7 +81,7 @@
                 android:textSize="20dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_escalas"
+                android:id="@+id/recyclerViewEscalas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/escala_agendada_label"
@@ -95,8 +90,6 @@
                 android:padding="8dp"/>
 
         </LinearLayout>
-
-    </ScrollView>
 
     <!-- Menu -->
     <com.google.android.material.navigation.NavigationView

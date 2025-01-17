@@ -12,28 +12,26 @@ class VoluntarioRepository {
     private val db = FirebaseFirestore.getInstance()
 
     // Função de login
-    suspend fun loginUser(email: String, password: String): Boolean {
+    suspend fun loginUser(email: String, password: String): String? {
         return try {
-            // Autenticar o usuário no Firebase Auth
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
-
-            // Verificar se o usuário existe no Firestore
             val user = authResult.user
             user?.let {
                 val document = db.collection("voluntarios").document(user.uid).get().await()
-
                 if (document.exists()) {
-                    Log.d("Login", "Usuário encontrado no Firestore")
+                    Log.d("Login", "Utilizador encontrado!")
                 } else {
-                    Log.d("Login", "Usuário não encontrado no Firestore")
+                    Log.d("Login", "Utilizador não encontrado!")
                 }
-                document.exists()
-            } ?: false
+                return user.uid // Retorna o UID do utilizador
+            }
+            null
         } catch (e: Exception) {
             Log.e("LoginError", "Erro ao fazer login: ${e.message}", e)
-            return false
+            null
         }
     }
+
 
     // Função de registo do usuário
     suspend fun registerUser(voluntario: VoluntarioModel): Boolean {
@@ -57,14 +55,31 @@ class VoluntarioRepository {
                 true
             } ?: false
         } catch (e: Exception) {
-            Log.e("RegisterError", "Erro ao registar usuário: ${e.message}", e)
+            Log.e("RegisterError", "Erro ao registar utilizador: ${e.message}", e)
             false
         }
     }
 
-    fun guardarEscala(data: String, horario: String) {
-        // Guardar a escala no banco de dados ou back-end
-        // Exemplo simples: apenas logar a ação
-        println("Escala salva: Data - $data, Horário - $horario")
+    suspend fun guardarEscala(userId: String, data: String, horario: String): Boolean {
+        return try {
+            val escalaData = mapOf(
+                "data" to data,
+                "horario" to horario
+            )
+
+            db.collection("escalas")
+                .document(userId)
+                .collection("horarios") // Subcoleção para escalas de cada utilizador
+                .add(escalaData)
+                .await()
+
+            Log.d("Escala", "Escala guardada com sucesso!")
+            true
+        } catch (e: Exception) {
+            Log.e("EscalaError", "Erro ao guardar escala: ${e.message}", e)
+            false
+        }
     }
+
+
 }
