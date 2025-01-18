@@ -22,29 +22,29 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializa o ViewModel
+        // ViewModel
         voluntarioViewModel = ViewModelProvider(this).get(VoluntarioViewModel::class.java)
 
-        // Preencher o Spinner com as funções fixas
+        // Spinner
         val roles = arrayOf("Admin", "Vol", "VolL", "PresJunta")
         val roleAdapter = ArrayAdapter(this, R.layout.simple_spinner_item, roles)
         roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerRole.adapter = roleAdapter
 
-        // Observa o estado de registo
+        // Registo status
         voluntarioViewModel.isUserRegistered.observe(this) { isRegistered ->
             if (isRegistered) {
                 Toast.makeText(this, "Registo bem-sucedido! Faça login.", Toast.LENGTH_SHORT).show()
                 // Redirecionar para a LoginActivity
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-                finish() // Finaliza a SignUpActivity
+                finish()
             } else {
                 Toast.makeText(this, "Falha ao registar o utilizador. Tente novamente.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Clique no botão de registo
+        // Botão de Registo
         binding.buttonSignup.setOnClickListener {
             val email = binding.editEmail.text.toString()
             val password = binding.editPassword.text.toString()
@@ -55,7 +55,7 @@ class SignUpActivity : AppCompatActivity() {
             // Verifica se todos os campos estão preenchidos
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && nome.isNotEmpty()) {
                 if (password == confirmPassword) {
-                    // Cria o modelo do voluntário
+                    // Modelo do voluntário
                     val voluntario = VoluntarioModel(
                         email = email,
                         senha = password,
@@ -64,7 +64,6 @@ class SignUpActivity : AppCompatActivity() {
                         dataRegisto = System.currentTimeMillis().toString()
                     )
 
-                    // Chama a função de registo no ViewModel
                     voluntarioViewModel.registerUser(voluntario)
                 } else {
                     Toast.makeText(this, "As senhas não coincidem.", Toast.LENGTH_SHORT).show()
@@ -74,7 +73,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        // Configurar botão de voltar
+        // Botão de voltar
         binding.buttonVoltar.setOnClickListener { finish() }
     }
 }

@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val voluntarioViewModel: VoluntarioViewModel by viewModels() // Instancia o ViewModel
+    private val voluntarioViewModel: VoluntarioViewModel by viewModels() // Instanciar o ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +34,12 @@ class LoginActivity : AppCompatActivity() {
 
         voluntarioViewModel.isUserLoggedIn.observe(this) { isLoggedIn ->
             if (isLoggedIn) {
-                // Verifica se a MainActivity já foi iniciada antes de tentar iniciar novamente
+                // Verifica a MainActivity
                 if (isFinishing.not()) {
                     Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
-                    finish()  // Finaliza a LoginActivity para impedir voltar
+                    finish()  // Finaliza a LoginActivity
                 }
             } else {
                 Toast.makeText(this, "Credenciais inválidas. Tente novamente.", Toast.LENGTH_SHORT).show()
@@ -60,26 +60,23 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Redireciona para a SignUpActivity quando o link de "Criar conta" for clicado
+        // "Criar conta" -> SignUpActivity
         binding.textSignUp.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        // O link de recuperação de senha ainda não foi implementado, se necessário
         binding.textRecoverPassword.setOnClickListener {
-            // Ação para recuperação de senha (não implementada por enquanto)
+            // Verificar (existe acesso direto ao Auth do Firebase)
         }
     }
 
     companion object {
         fun logout(context: Context) {
-            // Realiza o logout do Firebase
             FirebaseAuth.getInstance().signOut()
 
-            // Exibe uma mensagem de sucesso
+            // Msg
             Toast.makeText(context, "Logout realizado com sucesso", Toast.LENGTH_SHORT).show()
 
-            // Redireciona para a LoginActivity
             val intent = Intent(context, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)

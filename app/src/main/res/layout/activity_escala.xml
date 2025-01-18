@@ -31,14 +31,14 @@
 
 
 
-            <!-- Calendar for selecting Saturdays -->
+            <!-- Calendario -->
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dateTextAppearance="?android:attr/textAppearanceMedium" />
 
-            <!-- Dropdown for selecting available hours -->
+            <!-- Spinner -->
             <Spinner
                 android:id="@+id/spinnerHoras"
                 android:layout_width="match_parent"
@@ -62,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"/>
 
-            <!-- Confirmation Button -->
             <Button
                 android:id="@+id/buttonConfirmar"
                 android:layout_width="match_parent"

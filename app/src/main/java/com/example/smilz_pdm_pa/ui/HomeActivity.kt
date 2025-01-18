@@ -16,11 +16,11 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home) // Conecta o layout à Activity
+        setContentView(R.layout.activity_home) // Layout -> Activity
 
-        // Configura a Toolbar personalizada
+        // Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+        setSupportActionBar(toolbar)  // ActionBar
 
 
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
@@ -44,7 +44,7 @@ class HomeActivity : AppCompatActivity() {
                 //R.id.nav_logout -> Toast.makeText(applicationContext, "Clicked Logout", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_home -> {
-                    // Redireciona para a MainActivity (Beneficiarios)
+                    // Redireciona para a Homepage (Beneficiarios)
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()

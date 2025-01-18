@@ -23,7 +23,7 @@ class VoluntarioRepository {
                 } else {
                     Log.d("Login", "Utilizador não encontrado!")
                 }
-                return user.uid // Retorna o UID do utilizador
+                return user.uid
             }
             null
         } catch (e: Exception) {
@@ -33,13 +33,13 @@ class VoluntarioRepository {
     }
 
 
-    // Função de registo do usuário
+    // Função de Registo do user
     suspend fun registerUser(voluntario: VoluntarioModel): Boolean {
         return try {
-            // Registra o usuário no Firebase Auth
+            // Firebase Auth
             val authResult = auth.createUserWithEmailAndPassword(voluntario.email, voluntario.senha).await()
 
-            // Salva os dados do voluntário no Firestore
+            // Dados Firestore
             val user = authResult.user
             user?.let {
                 val voluntarioData = mapOf(
@@ -49,7 +49,7 @@ class VoluntarioRepository {
                     "dataRegisto" to voluntario.dataRegisto
                 )
 
-                // Salva os dados no Firestore
+                // Guarda no Firestore
                 db.collection("voluntarios").document(user.uid).set(voluntarioData).await()
 
                 true

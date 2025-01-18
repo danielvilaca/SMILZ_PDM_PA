@@ -26,7 +26,7 @@ class BeneficiarioRepository {
         collection.document(id).delete().await()
     }
 
-    // Função para excluir todos os documentos
+    // Excluir todos os documents
     suspend fun deleteAllBeneficiarios() {
         val snapshot = collection.get().await()
         for (doc in snapshot.documents) {

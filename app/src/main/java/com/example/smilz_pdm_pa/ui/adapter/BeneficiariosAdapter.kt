@@ -16,7 +16,7 @@ class BeneficiarioAdapter(
     private val onAlterarClick: (BeneficiarioModel) -> Unit
 ) : RecyclerView.Adapter<BeneficiarioAdapter.BeneficiarioViewHolder>() {
 
-    // ViewHolder interno para manter as referências dos componentes de layout
+    // Referências layout
     class BeneficiarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textNome: TextView = itemView.findViewById(R.id.text_nome)
         val textId: TextView = itemView.findViewById(R.id.text_id)

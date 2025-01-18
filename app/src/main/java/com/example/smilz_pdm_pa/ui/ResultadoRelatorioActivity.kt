@@ -22,10 +22,10 @@ class ResultadoRelatorioActivity : AppCompatActivity() {
 
         binding = ActivityResultadoRelatorioBinding.inflate(layoutInflater)
 
-        // Obtém o relatório passado pela Intent
+        // Relatório Intent
         val relatorio = intent.getSerializableExtra("relatorio") as Relatorio
 
-        // Configura o gráfico
+        // PieChart
         val pieChart = findViewById<PieChart>(R.id.pie_chart)
         val pieEntries = relatorio.dadosGrafico.map { PieEntry(it.value.toFloat(), it.key) }
         val dataSet = PieDataSet(pieEntries, "Nacionalidades")
@@ -33,17 +33,17 @@ class ResultadoRelatorioActivity : AppCompatActivity() {
         pieChart.data = pieData
         pieChart.invalidate() // Atualiza o gráfico
 
-        // Configura o número de visitas
+        // Número de visitas
         val textNumeroVisitas: TextView = findViewById(R.id.text_numero_visitas)
         textNumeroVisitas.text = "Número total de visitas: ${relatorio.numeroVisitas}"
 
-        // Configura o botão para exportar
+        // Botão para exportar
         val buttonExportar: Button = findViewById(R.id.button_exportar)
         buttonExportar.setOnClickListener {
             pieChart.saveToGallery("relatorio_${relatorio.ano}_${relatorio.mes}", 85)
         }
 
-        // Configurar botão de voltar
+        // Botão de voltar
         binding.buttonVoltar.setOnClickListener { finish() }
     }
 }

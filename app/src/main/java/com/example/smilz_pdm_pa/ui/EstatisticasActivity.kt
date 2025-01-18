@@ -21,31 +21,31 @@ class EstatisticasActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var relatoriosAdapter: RelatoriosAdapter
-    private val listaRelatorios = mutableListOf<Relatorio>() // Lista de relatórios gerados
+    private val listaRelatorios = mutableListOf<Relatorio>() // Lista de relatórios
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_estatisticas) // Conecta o layout à Activity
+        setContentView(R.layout.activity_estatisticas) // Layout -> Activity
 
-        // Configuração da RecyclerView
+        // RecyclerView
         recyclerView = findViewById(R.id.recyclerView_escalas)
         relatoriosAdapter = RelatoriosAdapter(listaRelatorios) { relatorio ->
-            // Callback para abrir a nova Activity ao clicar no botão "Ver"
+            // Callback Botão Ver -> Activity
             val intent = Intent(this, ResultadoRelatorioActivity::class.java)
-            intent.putExtra("relatorio", relatorio) // Passa o relatório como argumento
+            intent.putExtra("relatorio", relatorio) // Relatório como argumento
             startActivity(intent)
         }
         recyclerView.adapter = relatoriosAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Configuração do botão para gerar relatórios
+        // Botão para gerar relatórios
         val botaoGerarRelatorio: Button = findViewById(R.id.button_gerar_relatorio)
         botaoGerarRelatorio.setOnClickListener {
-            // Simula a geração de um relatório (substitua pela lógica real)
+            // Simulação
             val novoRelatorio = Relatorio(
-                ano = "2024",  // Alterado para String
+                ano = "2024",
                 mes = "Dezembro",
-                nacionalidade = "Todas",  // Passando corretamente a nacionalidade
+                nacionalidade = "Todas",
                 numeroVisitas = 120,
                 dadosGrafico = mapOf("Portuguesa" to 50, "Brasileira" to 30, "Angolana" to 20)
             )
@@ -53,9 +53,9 @@ class EstatisticasActivity : AppCompatActivity() {
             relatoriosAdapter.notifyDataSetChanged() // Atualiza a RecyclerView
         }
 
-        // Configura a Toolbar personalizada
+        // Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+        setSupportActionBar(toolbar)  // ActionBar
 
 
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
@@ -79,7 +79,7 @@ class EstatisticasActivity : AppCompatActivity() {
                 //R.id.nav_logout -> Toast.makeText(applicationContext, "Clicked Logout", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_home -> {
-                    // Redireciona para a MainActivity (Beneficiarios)
+                    // Redireciona para a Homepage (Beneficiarios)
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()

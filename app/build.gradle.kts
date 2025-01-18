@@ -67,7 +67,7 @@ dependencies {
     // Material Design (necessário para NavigationView e FloatingActionButton)
     implementation ("com.google.android.material:material:1.9.0")
 
-    // RecyclerView (se ainda não tiver)
+    // RecyclerView
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
 
     // Core UI components (AppCompat para suporte a ActionBar e DrawerToggle)

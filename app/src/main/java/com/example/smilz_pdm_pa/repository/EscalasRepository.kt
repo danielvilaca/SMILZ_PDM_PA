@@ -8,7 +8,7 @@ class EscalasRepository {
 
     private val db = FirebaseFirestore.getInstance()
 
-    // Salvar escala
+    // Guardar escala
     fun guardarEscala(userId: String, data: String, horario: String): Boolean {
         return try {
             val escalaData = mapOf("data" to data, "horario" to horario)
@@ -27,7 +27,7 @@ class EscalasRepository {
     }
 
 
-    // Obter escalas para um usuário específico
+    // Escala para um user específico
     suspend fun obterEscalasPorUser(userId: String): List<Map<String, Any>> {
         return try {
             val querySnapshot = db.collection("escalas")
@@ -42,7 +42,7 @@ class EscalasRepository {
         }
     }
 
-    // Obter todas as escalas (apenas para Admin ou VoluntárioLíder)
+    // Todas as escalas (Admin / VoluntárioLíder)
     suspend fun obterTodasAsEscalas(): List<Map<String, Any>> {
         return try {
             val querySnapshot = db.collection("escalas").get().await()

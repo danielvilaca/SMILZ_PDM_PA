@@ -6,7 +6,6 @@
     android:background="?android:attr/selectableItemBackground"
     android:backgroundTint="@color/white">
 
-    <!-- Exibição do Nome -->
     <TextView
         android:id="@+id/text_nome"
         android:layout_width="wrap_content"
@@ -19,7 +18,6 @@
         android:layout_marginEnd="16dp" />
 
 
-    <!-- Botão para ver detalhes -->
     <Button
         android:id="@+id/button_ver_detalhes"
         android:layout_width="wrap_content"

@@ -6,7 +6,6 @@
     android:background="?android:attr/selectableItemBackground"
     android:backgroundTint="@color/white">
 
-    <!-- Exibição do Nome -->
     <TextView
         android:id="@+id/text_nome"
         android:layout_width="wrap_content"
@@ -18,7 +17,6 @@
         android:layout_toStartOf="@id/button_ver_detalhes"
         android:layout_marginEnd="16dp" />
 
-    <!-- Exibição do ID do Beneficiário -->
     <TextView
         android:id="@+id/text_id"
         android:layout_width="wrap_content"
@@ -29,7 +27,6 @@
         android:layout_alignStart="@id/text_nome"
         android:layout_marginTop="20dp" />
 
-    <!-- Botão para ver detalhes -->
     <Button
         android:id="@+id/button_ver_detalhes"
         android:layout_width="wrap_content"

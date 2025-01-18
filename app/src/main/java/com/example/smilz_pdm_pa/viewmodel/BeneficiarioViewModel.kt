@@ -20,14 +20,13 @@ class BeneficiarioViewModel : ViewModel() {
     }
 
     suspend fun addBeneficiarios(beneficiarios: List<BeneficiarioModel>) {
-        setLoading(true) // Iniciar o estado de carregamento
+        setLoading(true)
         try {
             beneficiarios.forEach { beneficiario ->
-                // Adicionar cada beneficiário (simula a operação com Firebase ou outro backend)
                 addBeneficiario(beneficiario)
             }
         } finally {
-            setLoading(false) // Finalizar o estado de carregamento
+            setLoading(false)
         }
     }
 
@@ -56,7 +55,6 @@ class BeneficiarioViewModel : ViewModel() {
         }
     }
 
-    // Função para excluir todos os beneficiários
     fun deleteAllBeneficiarios() {
         viewModelScope.launch {
             repository.deleteAllBeneficiarios()

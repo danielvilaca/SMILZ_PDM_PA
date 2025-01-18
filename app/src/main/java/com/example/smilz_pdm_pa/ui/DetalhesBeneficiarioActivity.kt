@@ -30,9 +30,9 @@ class DetalhesBeneficiarioActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        // Configura a Toolbar personalizada
+        //Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+        setSupportActionBar(toolbar)  //ActionBar
 
 
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
@@ -53,7 +53,7 @@ class DetalhesBeneficiarioActivity : AppCompatActivity() {
                 //R.id.nav_beneficiarios -> Toast.makeText(applicationContext, "Clicked Beneficiarios", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_home -> {
-                    // Redireciona para a MainActivity (Beneficiarios)
+                    // Redireciona para a Homepage (Beneficiarios)
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -88,10 +88,10 @@ class DetalhesBeneficiarioActivity : AppCompatActivity() {
             true
         }
 
-        // Configurar botão de voltar
+        // Botão de voltar
         binding.buttonVoltar.setOnClickListener { finish() }
 
-        // Obter o ID do beneficiário do Intent
+        // ID do beneficiário Intent
         val beneficiarioId = intent.getStringExtra("beneficiario_id")
         if (!beneficiarioId.isNullOrEmpty()) {
             carregarDetalhes(beneficiarioId)

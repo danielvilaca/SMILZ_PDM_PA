@@ -41,9 +41,9 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
         binding = ActivityAlterarDadosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configura a Toolbar personalizada
+        // Toolbar
         val toolbar: Toolbar = findViewById(id.toolbar)
-        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+        setSupportActionBar(toolbar)  // ActionBar
 
 
         val drawerLayout : DrawerLayout = findViewById(id.drawerLayout)
@@ -61,7 +61,7 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
             when(it.itemId){
 
                 id.nav_home -> {
-                    // Redireciona para a MainActivity (Beneficiarios)
+                    // Redireciona para a Homepage (Beneficiarios)
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -96,14 +96,14 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
             true
         }
 
-        // Configurar botão de voltar
+        // Botão de voltar
         binding.buttonVoltar.setOnClickListener { finish() }
 
 
-        // Obtendo o ID do beneficiário passado pela Intent
+        // ID do beneficiário Intent
         beneficiaryId = intent.getStringExtra("beneficiaryId") ?: return
 
-        // Inicializando os campos de UI
+        // Inicializar campos de UI
         editId = findViewById(id.edit_id)
         editNome = findViewById(id.edit_nome)
         editContacto = findViewById(id.edit_contacto)
@@ -115,14 +115,14 @@ class AlterarBeneficiarioActivity : AppCompatActivity() {
         editNumVisitas = findViewById(id.edit_num_visitas)
         buttonSalvar = findViewById(id.button_salvar)
 
-        // Preenchendo o campo de ID
+        // ID
         editId.setText(beneficiaryId)
         editId.isEnabled = false // Bloquear edição do ID
 
         // Carregar dados do beneficiário
         carregarDadosBeneficiario()
 
-        // Configuração do botão "Salvar"
+        // Botão "Guardar"
         buttonSalvar.setOnClickListener {
             salvarAlteracoes()
         }

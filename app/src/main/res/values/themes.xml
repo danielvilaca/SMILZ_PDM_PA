@@ -8,9 +8,9 @@
     <style name="Theme.SMILZ_PDM_PA" parent="Base.Theme.SMILZ_PDM_PA" />
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowActionBar">false</item> <!-- Desativa a ActionBar padrão -->
-        <item name="windowNoTitle">true</item> <!-- Remove o título da Activity -->
-        <item name="android:windowActionModeOverlay">true</item> <!-- Permite sobrepor a ActionMode -->
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
     </style>
 
 

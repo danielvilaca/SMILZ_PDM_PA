@@ -47,10 +47,10 @@ class EscalaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_escala)
 
-        // Inicialização do Firestore
+        // Firestore
         firestore = FirebaseFirestore.getInstance()
 
-        // Configura o RecyclerView
+        // RecyclerView
         recyclerView = findViewById(R.id.recyclerViewEscalas)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -65,9 +65,9 @@ class EscalaActivity : AppCompatActivity() {
         }
 
 
-        // Configura a Toolbar personalizada
+        // Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+        setSupportActionBar(toolbar)  // ActionBar
 
 
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
@@ -88,7 +88,7 @@ class EscalaActivity : AppCompatActivity() {
                 //R.id.nav_beneficiarios -> Toast.makeText(applicationContext, "Clicked Beneficiarios", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_home -> {
-                    // Redireciona para a MainActivity (Beneficiarios)
+                    // Redireciona para a Homepage (Beneficiarios)
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -123,17 +123,17 @@ class EscalaActivity : AppCompatActivity() {
             true
         }
 
-        // Referências aos componentes do layout
+        // Referências layout
         calendarView = findViewById(R.id.calendarView)
         spinnerHoras = findViewById(R.id.spinnerHoras)
         buttonConfirmar = findViewById(R.id.buttonConfirmar)
 
-        // Configurar spinner de horários
+        // Spinner de horários
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, horariosDisponiveis)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerHoras.adapter = adapter
 
-        // Configurar CalendarView para selecionar apenas sábados
+        // CalendarView
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
@@ -147,16 +147,15 @@ class EscalaActivity : AppCompatActivity() {
             }
         }
 
-        // Ação do botão confirmar
+        // Botão confirmar
         buttonConfirmar.setOnClickListener {
             if (dataSelecionada != null) {
                 val horarioSelecionado = spinnerHoras.selectedItem.toString()
 
-                // Supondo que você tenha acesso ao ID e nome do voluntário
-                val voluntarioId = "user123"  // Substitua com a lógica de obter o ID do voluntário
-                val voluntarioNome = "João Silva"  // Substitua com a lógica de obter o nome do voluntário
+                val voluntarioId = "Admin"
+                val voluntarioNome = "DraTania"
 
-                // Passando todos os parâmetros necessários
+                // Parâmetros necessários
                 confirmarEscala(dataSelecionada!!, horarioSelecionado, voluntarioId, voluntarioNome)
             } else {
                 Toast.makeText(this, "Selecione um sábado e um horário.", Toast.LENGTH_SHORT).show()
@@ -182,7 +181,7 @@ class EscalaActivity : AppCompatActivity() {
                     escalasList.add(escala)
                 }
 
-                // Atualizar o adaptador com os dados
+                // Atualizar
                 adapter.atualizarEscalas(escalasList)
             }
             .addOnFailureListener { e ->
@@ -193,7 +192,6 @@ class EscalaActivity : AppCompatActivity() {
 
 
     private fun confirmarEscala(data: String, horario: String, voluntarioId: String, voluntarioNome: String) {
-        // Aqui estamos criando um objeto Escala com todos os dados necessários
         val escala = Escala(
             data = data,
             horario = horario,
@@ -202,10 +200,9 @@ class EscalaActivity : AppCompatActivity() {
             criadoEm = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(Calendar.getInstance().time)  // Exemplo de data/hora atual
         )
 
-        // Agora você pode chamar o método para registrar a escala no ViewModel
         voluntarioViewModel.registrarEscala(escala)
 
-        // Feedback para o usuário
+        // Feedback
         Toast.makeText(this, "Escala confirmada para $data às $horario.", Toast.LENGTH_SHORT).show()
     }
 

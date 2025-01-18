@@ -37,8 +37,6 @@ class VoluntarioViewModel : ViewModel() {
                 val userId = voluntarioRepository.loginUser(email, password)
                 if (userId != null) {
                     _isUserLoggedIn.value = true
-                    // Agora, tem-se o userId para usar nas escalas
-                    // Exemplo de uso: Vamos carregar as escalas para o utilizador logado
                     carregarEscalasParaUser(userId)
                 } else {
                     _isUserLoggedIn.value = false
@@ -51,7 +49,7 @@ class VoluntarioViewModel : ViewModel() {
     }
 
 
-    // Registar usuário
+    // Registar user
     fun registerUser(voluntario: VoluntarioModel) {
         viewModelScope.launch {
             try {
@@ -64,18 +62,14 @@ class VoluntarioViewModel : ViewModel() {
     }
 
     // Registar escala
-    // Função para registrar a escala com os novos dados
     fun registrarEscala(escala: Escala) {
-        // Agora você pode usar o objeto Escala diretamente para registrar no banco de dados
         firestore.collection("escalas")
             .add(escala)
             .addOnSuccessListener {
-                // Sucesso ao registrar a escala
-                Log.d("Escala", "Escala registrada com sucesso")
+                Log.d("Escala", "Escala registada com sucesso")
             }
             .addOnFailureListener { e ->
-                // Erro ao registrar a escala
-                Log.e("Escala", "Erro ao registrar escala", e)
+                Log.e("Escala", "Erro ao registar a escala", e)
             }
     }
 
@@ -95,7 +89,7 @@ class VoluntarioViewModel : ViewModel() {
                 .whereEqualTo("id", userId)
                 .addSnapshotListener { snapshots, e ->
                     if (e != null) {
-                        Log.e("Firestore", "Erro ao escutar alterações: ", e)
+                        Log.e("Firestore", "Erro ao obter escalas: ", e)
                         callback(emptyList())
                         return@addSnapshotListener
                     }
@@ -124,7 +118,7 @@ class VoluntarioViewModel : ViewModel() {
 
     private fun obterUserId(): String {
         val user = FirebaseAuth.getInstance().currentUser
-        return user?.uid ?: "" // Retorna o ID do utilizador logado ou uma string vazia
+        return user?.uid ?: ""
     }
 
 

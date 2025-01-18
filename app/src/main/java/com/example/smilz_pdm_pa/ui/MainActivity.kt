@@ -43,11 +43,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Inicializando a referência do botão
+        // Referência do botão
         buttonAddBeneficiario = findViewById(R.id.button_add_beneficiario)
         buttonOrder = findViewById(R.id.button_order)
 
-        // Configurando o clique do botão para abrir o diálogo de adicionar beneficiário
         buttonAddBeneficiario.setOnClickListener {
             adicionarBeneficiario()
         }
@@ -57,9 +56,9 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // Configura a Toolbar personalizada
+        // Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)  // Define a toolbar como a ActionBar
+        setSupportActionBar(toolbar)  // ActionBar
 
 
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 //R.id.nav_beneficiarios -> Toast.makeText(applicationContext, "Clicked Beneficiarios", Toast.LENGTH_SHORT).show()
 
                 R.id.nav_home -> {
-                    // Redireciona para a MainActivity (Beneficiarios)
+                    // Redireciona para a Homepage (Beneficiarios)
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -116,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // Inicializar RecyclerView
+        // RecyclerView
         recyclerViewBeneficiarios = findViewById(R.id.recyclerView_beneficiarios)
         recyclerViewBeneficiarios.layoutManager = LinearLayoutManager(this)
         recyclerViewBeneficiarios.setHasFixedSize(true)
@@ -127,10 +126,10 @@ class MainActivity : AppCompatActivity() {
             adicionarBeneficiario()
         }
 
-        // Inicializar ViewModel
+        // ViewModel
         beneficiarioViewModel = BeneficiarioViewModel()
 
-        // Observar o StateFlow usando lifecycleScope
+        // StateFlow
         lifecycleScope.launch {
             /*beneficiarioViewModel.beneficiarios.collect { beneficiarios ->
                 recyclerViewBeneficiarios.adapter = BeneficiarioAdapter(
@@ -152,10 +151,10 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        // Carregar os beneficiários da base de dados
+        // Carregar os beneficiários
         beneficiarioViewModel.fetchBeneficiarios()
 
-        // Configurar botão para upload do Excel
+        // Botão para upload do Excel
         buttonUploadExcel = findViewById(R.id.button_upload_excel)
         buttonUploadExcel.setOnClickListener {
             abrirSeletorDeArquivo()
@@ -196,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                         atualizarRecyclerView(beneficiariosFiltrados)
                     }
                 } else {
-                    Toast.makeText(this, "Digite um nome para pesquisar.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Introduza um nome para pesquisar.", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancelar", null)
@@ -253,19 +252,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun adicionarBeneficiario() {
-        // Criar o layout do diálogo
+        // Diálogo
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_adicionar_beneficiario, null)
         val editNome: EditText = view.findViewById(R.id.edit_nome)
         val editId: EditText = view.findViewById(R.id.edit_id)
 
         // Gerar um ID único automaticamente
-        val id = (System.currentTimeMillis()).toString()  // Usando o timestamp como ID único
+        val id = (System.currentTimeMillis()).toString()  // Timestamp
 
-        // Configurar o campo edit_id para mostrar o ID gerado, mas não permitir edição
         editId.setText(id)
         editId.isEnabled = false  // Impede a edição do ID
 
-        // Configurar o diálogo
+        // Diálogo
         val dialog = AlertDialog.Builder(this)
             .setTitle("Adicionar Beneficiário")
             .setView(view)
@@ -326,7 +324,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Seleção de arquivo cancelada.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Seleção do ficheiro cancelada.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -340,19 +338,19 @@ class MainActivity : AppCompatActivity() {
             if (sheet != null) {
                 val beneficiarios = mutableListOf<BeneficiarioModel>()
 
-                // Ignorar as primeiras linhas (cabeçalhos)
+                // Ignorar as 2 primeiras linhas (header)
                 for (row in sheet.drop(2)) {
                     try {
                         Log.d("ExcelDebug", "Lendo linha ${row.rowNum}")
 
-                        // Verificar se a célula do ID está vazia ou inválida
+                        // ID está vazio ou inválido
                         val idCell = row.getCell(0)
                         if (idCell == null || (idCell.cellType == CellType.BLANK)) {
-                            Log.d("ExcelDebug", "Célula de ID vazia na linha ${row.rowNum}, interrompendo processamento.")
+                            Log.d("ExcelDebug", "Célula de ID vazia na linha ${row.rowNum}, a interromper o processo.")
                             break // Interromper o loop
                         }
 
-                        // Log para verificar o tipo de célula ID
+                        // Tipo de célula ID
                         Log.d("ExcelDebug", "ID: Tipo de célula: ${idCell.cellType}")
 
                         val id = when (idCell.cellType) {
@@ -471,13 +469,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Planilha 'Beneficiários-novo' não encontrada.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Datasheet 'Beneficiários-novo' não encontrada.", Toast.LENGTH_SHORT).show()
             }
 
             workbook.close()
         } catch (e: Exception) {
-            Log.e("ExcelDebug", "Erro geral ao processar o arquivo: ${e.message}", e)
-            Toast.makeText(this, "Erro ao processar o arquivo: ${e.message}", Toast.LENGTH_LONG).show()
+            Log.e("ExcelDebug", "Erro geral ao processar o ficheiro: ${e.message}", e)
+            Toast.makeText(this, "Erro ao processar o ficheiro: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 

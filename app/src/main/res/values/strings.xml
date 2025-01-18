@@ -34,14 +34,12 @@
         <item>Janeiro</item>
         <item>Fevereiro</item>
         <item>Março</item>
-        <!-- Adicione todos os meses -->
     </string-array>
     <string-array name="nacionalidades">
         <item>Todas</item>
         <item>Portuguesa</item>
         <item>Brasileira</item>
         <item>Angolana</item>
-        <!-- Adicione outras nacionalidades relevantes -->
     </string-array>
 
 </resources>
